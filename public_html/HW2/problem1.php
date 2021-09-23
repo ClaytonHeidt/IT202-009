@@ -12,8 +12,8 @@ function processArray($arr) {
     
     for ($x = 0; $x < count($arr); $x++){
         $y = $arr[$x] % 2;
-        //echo $arr[$x];
-        if ($arr[$y] == 1){
+
+        if ($y == 1){
             echo $arr[$x] . "<br>";
         }
     }
