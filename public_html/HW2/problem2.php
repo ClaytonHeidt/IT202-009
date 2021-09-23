@@ -9,9 +9,10 @@ function getTotal($arr) {
     //TODO do adding here
     for ($x = 0; $x < count($arr); $x++){
         $total = $total + $arr[$x];
-        echo $total . "<br>";
+        //echo $total . "<br>";
     }
     //TODO do rounding stuff here
+    $total = round($total,2);
     echo "The total is " . var_export($total, true);
 }
 echo "Problem 2: Adding Floats<br>";
