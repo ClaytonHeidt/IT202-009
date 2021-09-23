@@ -7,8 +7,10 @@ function getTotal($arr) {
     echo "<br>Processing Array:<br><pre>" . var_export($arr, true) . "</pre>";
     $total = 0.00;
     //TODO do adding here
-    echo $a1[1];
-
+    for ($x = 0; $x < count($arr); $x++){
+        $total = $total + $arr[$x];
+        echo $total . "<br>";
+    }
     //TODO do rounding stuff here
     echo "The total is " . var_export($total, true);
 }
