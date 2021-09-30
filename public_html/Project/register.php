@@ -32,5 +32,27 @@ require(__DIR__ . "/../../lib/functions.php");
      $password = $_POST["password"];
      $confirm = $_POST["confirm"];
      //TODO 3: validate/use
+     $errors = [];
+     if(empty($email)){
+         array_push($errors, "Email must be set");
+     }
+     if(empty($password)){
+        array_push($errors, "Password must be set");
+    }
+    if(empty($confirm)){
+        array_push($errors, "Confirm password must be set");
+    }
+    if(strlen($password) < 8){
+        array_push($errors, "Password must be 8 or more characters");
+    }
+    if(strlen($password) > 0 && $password !== $confirm){
+        array_push($errors, "Passwords don't match");
+    }
+    if(count($errors) > 0){
+        echo "<pre>" . var_export($errors, true) . "</pre>";
+    }
+    else{
+        echo "Welcome, $email!";
+    }
  }
 ?>
