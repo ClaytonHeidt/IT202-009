@@ -9,9 +9,23 @@
             console.log("loaded via javascript");
             //TODO: add any extra onload processing you may need here
             window.onhashchange = function() { 
-                let str = window.location.href;
-                str = str.substring(35);
-                updateCurrentPage(str);
+                let pageURL = window.location.href;
+                let login = pageURL.search("login");
+                let register = pageURL.search("register");
+                let profile = pageURL.search("profile");
+                let logout = pageURL.search("logout");
+                if (login != -1){
+                    updateCurrentPage("login");
+                }
+                if (register != -1){
+                    updateCurrentPage("register");
+                }
+                if (profile != -1){
+                    updateCurrentPage("profile");
+                }
+                if (logout != -1){
+                    updateCurrentPage("logout");
+                }
             }
         });
         function getCurrentSelection() {
