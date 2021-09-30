@@ -33,7 +33,13 @@ function se($v, $k = null, $default = "", $isEcho = true) {
 }
 
 //TODO 2: filter helpers
-
+if(isset($_POST["email"]) && isset($_POST["password"]) && isset($_POST["confirm"])){
+    //get the email key from $_POST, default to "" if not set, and return the value
+    $email = se($_POST, "email", "", false);
+    //same as above but for password and confirm
+    $password = se($_POST, "password", "", false);
+    $confirm = se($_POST, "confirm", "", false);
+}
 //TODO 3: User helpers
 
 //TODO 4: Flash Message Helpers
