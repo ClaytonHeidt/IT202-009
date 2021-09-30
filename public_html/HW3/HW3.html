@@ -9,9 +9,9 @@
             console.log("loaded via javascript");
             //TODO: add any extra onload processing you may need here
             window.onhashchange = function() { 
-                let str = window.location.href;
-                str = str.substring(44);
-                updateCurrentPage(str);
+                let page = window.location.href;
+                page = page.substring(44);
+                updateCurrentPage(page);
             }
         });
         function getCurrentSelection() {
