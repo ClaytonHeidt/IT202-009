@@ -1,8 +1,8 @@
 # Project Name: Simple Arcade
 ## Project Summary: This project will create a simple Arcade with scoreboards and competitions based on the implemented game.
-## Github Link: (Prod Branch of Project Folder)
-## Project Board Link: 
-## Website Link: (Heroku Prod of Project folder)
+## Github Link: https://github.com/ClaytonHeidt/IT202-009/tree/prod/public_html/Project
+## Project Board Link: https://github.com/ClaytonHeidt/IT202-009/projects/1
+## Website Link: http://cjh47-prod.herokuapp.com/Project/
 ## Your Name: Clayton Heidt
 
 <!--
