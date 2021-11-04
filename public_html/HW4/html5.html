@@ -40,6 +40,9 @@
     var up = false;
     var down = false;
     var space = false;
+    ////PART OF SIGNIFCANT CHANGE 1
+    var right = false;
+    var left = false;
 
     // Is a bullet already on the canvas?
     var shooting = false;
@@ -92,7 +95,8 @@
       context.font = '24px Arial';
       context.fillText('Click to Start', canvas.width / 2, canvas.height / 2);
       context.font = '18px Arial';
-      context.fillText('Up/Down to move, Space to shoot.', canvas.width / 2, (canvas.height / 4) * 3);
+      //Changed instructions to match significant change 1
+      context.fillText('Use the arrow keys to move, Space to shoot.', canvas.width / 2, (canvas.height / 4) * 3);
       // Start the game on a click
       canvas.addEventListener('click', startGame);
     }
@@ -133,6 +137,13 @@
       if (event.keyCode === 32) { // SPACE
         shoot();
       }
+      //PART OF SIGNIFCANT CHANGE 1
+      if (event.keyCode === 37) { // LEFT
+      left = true;
+      }
+      if (event.keyCode === 39) { // RIGHT
+      right = true;
+      }
     });
 
     // Listen for keyup events
@@ -143,6 +154,13 @@
       }
       if (event.keyCode === 40) { // DOWN
         down = false;
+      }
+      //PART OF SIGNIFCANT CHANGE 1
+      if (event.keyCode === 37) { // LEFT
+        left = false;
+      }
+      if (event.keyCode === 39) { // RIGHT
+        right = false;
       }
     });
 
@@ -186,6 +204,13 @@
       }
       if (up) {
         ship.y -= ship.s;
+      }
+      //PART OF SIGNIFCANT CHANGE 1
+      if (right) {
+        ship.x += ship.s;
+      }
+      if (left) {
+        ship.x -= ship.s;
       }
       // Don't go out of bounds
       if (ship.y < 0) {
