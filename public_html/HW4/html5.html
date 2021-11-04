@@ -45,8 +45,14 @@
     var left = false;
 
     // Is a bullet already on the canvas?
-    var shooting = false;
+    //PART OF SIGNICANT CHANGE 2 - shooting in all directions
+    var shootingN = false;
+    var shootingS = false;
+    var shootingE = false;
+    var shootingW = false;
+
     // The bulled shot from the ship
+    //PART OF SIGNICANT CHANGE 2 - bullets in all directions
     var bulletN = makeSquare(0, 0, 10, 15);
     var bulletS = makeSquare(0, 0, 10, 15);
     var bulletE = makeSquare(0, 0, 10, 15);
@@ -174,18 +180,25 @@
     }
 
     // Shoot the bullet (if not already on screen)
+    //PART OF SIGNIFICANT CHANGE 2 - shoot function for all directional bullets
     function shoot() {
-      if (!shooting) {
-        shooting = true;
+      if (!shootingN) {
+        shootingN = true;
         bulletN.x = ship.x + ship.l;
         bulletN.y = ship.y + ship.l / 2;
-
+      }
+      if (!shootingS) {
+        shootingS = true;
         bulletS.x = ship.x + ship.l;
         bulletS.y = ship.y + ship.l / 2;
-
+      }
+      if (!shootingE) {
+        shootingE = true;
         bulletE.x = ship.x + ship.l;
         bulletE.y = ship.y + ship.l / 2;
-
+      }
+      if (!shootingW) {
+        shootingW = true;
         bulletW.x = ship.x + ship.l;
         bulletW.y = ship.y + ship.l / 2;
       }
@@ -243,19 +256,20 @@
       context.fillStyle = '#FF0000';
       ship.draw();
       // Move and draw the bullet
-      if (shooting) {
+      //SIGNIFICANT CHANGE 2 - shooting bullets on one side wont stop the other bullets
+      if (shootingN || shootingS || shootingE || shootingW) {
         // Move the bullet
-        bulletN.y += bulletN.s;
-        bulletS.y -= bulletS.s;
+        bulletN.y -= bulletN.s;
+        bulletS.y += bulletS.s;
         bulletE.x += bulletE.s;
         bulletW.x -= bulletW.s;
 
         // Collide the bullet with enemies
         enemies.forEach(function(enemy, i) {
-          if (isColliding(bulletE, enemy)) {
+          if (isColliding(bulletE, enemy) && shootingE == true) {
             enemies.splice(i, 1);
             score++;
-            shooting = false;
+            shootingE = false;
             // Make the game harder
             if (score % 10 === 0 && timeBetweenEnemies > 1000) {
               clearInterval(timeoutId);
@@ -265,10 +279,10 @@
               enemyBaseSpeed += 1;
             }
           }
-          if (isColliding(bulletW, enemy)) {
+          if (isColliding(bulletW, enemy) && shootingW == true) {
             enemies.splice(i, 1);
             score++;
-            shooting = false;
+            shootingW = false;
             // Make the game harder
             if (score % 10 === 0 && timeBetweenEnemies > 1000) {
               clearInterval(timeoutId);
@@ -278,10 +292,10 @@
               enemyBaseSpeed += 1;
             }
           }
-          if (isColliding(bulletN, enemy)) {
+          if (isColliding(bulletN, enemy)  && shootingN == true) {
             enemies.splice(i, 1);
             score++;
-            shooting = false;
+            shootingN = false;
             // Make the game harder
             if (score % 10 === 0 && timeBetweenEnemies > 1000) {
               clearInterval(timeoutId);
@@ -291,10 +305,10 @@
               enemyBaseSpeed += 1;
             }
           }
-          if (isColliding(bulletS, enemy)) {
+          if (isColliding(bulletS, enemy)  && shootingS == true) {
             enemies.splice(i, 1);
             score++;
-            shooting = false;
+            shootingS = false;
             // Make the game harder
             if (score % 10 === 0 && timeBetweenEnemies > 1000) {
               clearInterval(timeoutId);
@@ -306,17 +320,18 @@
           }
         });
         // Collide with the wall
-        /*if (bulletN.y > canvas.height) {
-          shooting = false;
-        }*/
-        /*if (bulletS.y < canvas.height) {
-          shooting = false;
-        }*/
-        /*if (bulletE.x > canvas.width) {
-          shooting = false;
-        }*/
-        if (bulletW.x < (canvas.width == 0)) {
-          shooting = false;
+        //SIGNIFICANT CHANGE 2 - bullet collisions with all walls
+        if (bulletN.y < 0) {
+          shootingN = false;
+        }
+        if (bulletS.y > canvas.height) {
+          shootingS = false;
+        }
+        if (bulletE.x > canvas.width) {
+          shootingE = false;
+        }
+        if (bulletW.x < 0) {
+          shootingW = false;
         }
         // Draw the bullet
         context.fillStyle = '#0000FF';
@@ -328,6 +343,7 @@
         context.fillStyle = '#0000FF';
         bulletW.draw();
       }
+      
       // Draw the score
       context.fillStyle = '#000000';
       context.font = '24px Arial';
