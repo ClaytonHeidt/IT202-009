@@ -23,15 +23,29 @@
 ### Proposal Checklist and Evidence
 
 - **Milestone 1**
-  - [ ] (mm/dd/yyyy of completion) User will be able to register a new account
+  - [x] (11/9/2021) User will be able to register a new account
     - List of Evidence of Feature Completion
-      - Status: Partially working (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://cjh47-prod.herokuapp.com/Project/register.php
       - Pull Requests
-        - PR link #1 https://github.com/ClaytonHeidt/IT202-009/pull/27
+        - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/24
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        - Screenshot #1: 
+          - Screenshot #1 description: 
+        - Screenshot #2: 
+          - Screenshot #2 description: 
+        - Screenshot #3: 
+          - Screenshot #3 description: 
+        - Screenshot #4: 
+          - Screenshot #4 description: 
+        - Screenshot #5: 
+          - Screenshot #5 description: 
+        - Screenshot #6: 
+          - Screenshot #6 description: 
+        - Screenshot #7: 
+          - Screenshot #7 description: 
+        - Screenshot #8: 
+          - Screenshot #8 description: 
 
   - [ ] (mm/dd/yyyy of completion) User will be able to login to their account (given they enter the correct credentials)
     - List of Evidence of Feature Completion
