@@ -1,21 +1,21 @@
 .alert-success {
-    background-color: green
+    background-color: green;
+    color: black;
 }
 
 .alert-warning {
     background-color: yellow;
+    color: darkgreen;
 }
 
 .alert-danger {
     background-color: red;
+    color: black;
 }
 
 .alert-info {
     background-color: teal;
-}
-
-nav {
-    background-color: lightgreen;
+    color: navy;
 }
 
 nav li{
@@ -23,16 +23,11 @@ nav li{
     /*background-color: lightsteelblue;*/
 }
 
-nav li a{
+nav li a {
     color: darkred
 }
 
-/*input{
-    border-radius: 50%;
-}*/
-
-body{
-    background-color: lightsteelblue;
+body {
+    background-color: lightslategrey;
     color: darkred;
-
 }
