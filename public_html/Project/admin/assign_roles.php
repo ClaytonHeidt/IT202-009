@@ -119,7 +119,8 @@ if (isset($_POST["username"])) {
 require_once(__DIR__ . "/../../../partials/flash.php");
 ?>
 <style>
-    div form table {
+    body {
         background-color: gray;
+        color: darkred;
     }
 </style>

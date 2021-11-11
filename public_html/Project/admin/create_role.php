@@ -46,3 +46,9 @@ if (isset($_POST["name"]) && isset($_POST["description"])) {
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../../../partials/flash.php");
 ?>
+<style>
+    body {
+        background-color: gray;
+        color: darkred;
+    }
+</style>

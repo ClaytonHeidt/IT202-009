@@ -93,7 +93,8 @@ try {
     require_once(__DIR__ . "/../../../partials/flash.php");
     ?>
 <style>
-    div table {
+    body {
         background-color: gray;
+        color: darkred;
     }
 </style>
