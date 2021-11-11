@@ -1,12 +1,14 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+$email = se($_POST, "email", "", false);
 ?>
 <div class="container-fluid">
     <h1>Login</h1>
     <form onsubmit="return validate(this)" method="POST">
         <div class="mb-3">
             <label class="form-label" for="email">Username/Email</label>
-            <input class="form-control" type="text" id="email" name="email" required />
+            <input class="form-control" type="text" id="email" name="email" required maxlength="100"
+            required value="<?php se($email); ?>" />
         </div>
         <div class="mb-3">
             <label class="form-label" for="pw">Password</label>
@@ -32,7 +34,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
     //TODO 3
     $hasError = false;
     if (empty($email)) {
-        flash("Email must not be empty", "danger");
+        flash("Email/Username must not be empty", "danger");
         $hasError = true;
     }
     if (str_contains($email, "@")) {
@@ -40,7 +42,7 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
         $email = sanitize_email($email);
         //validate
         if (!is_valid_email($email)) {
-            flash("Invalid email address", "warning");
+            flash("Invalid email/username", "warning");
             $hasError = true;
         }
     } else {
