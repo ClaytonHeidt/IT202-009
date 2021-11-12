@@ -82,7 +82,6 @@ if (isset($_POST["email"]) && isset($_POST["password"])) {
                         //save roles or empty array
                         if ($roles) {
                             $_SESSION["user"]["roles"] = $roles; //at least 1 role
-                            flash("You have the role of admin");
                         } else {
                             $_SESSION["user"]["roles"] = []; //no roles
                         }
