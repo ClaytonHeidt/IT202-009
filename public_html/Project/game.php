@@ -1,6 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
   <canvas id="canvas" width="600" height="400" tabindex="1"></canvas>
 
   <style>
@@ -362,11 +359,3 @@
     canvas.focus();
 
   </script>
-
-  <body>
-    
-  </body>
-
-</head>
-
-</html>
