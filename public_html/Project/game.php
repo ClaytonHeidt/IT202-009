@@ -44,7 +44,7 @@ require(__DIR__ . "/../../partials/nav.php");
   }
 
   // The ship the user controls
-  var ship = makeSquare(50, canvas.height / 2 - 25, 50, 5);
+  var ship = makeSquare(canvas.width / 2, canvas.height / 2, 50, 5);
 
   // Flags to tracked which keys are pressed
   var up = false;
@@ -194,22 +194,22 @@ require(__DIR__ . "/../../partials/nav.php");
   function shoot() {
     if (!shootingN) {
       shootingN = true;
-      bulletN.x = ship.x + ship.l;
+      bulletN.x = ship.x + ship.l / 2;
       bulletN.y = ship.y + ship.l / 2;
     }
     if (!shootingS) {
       shootingS = true;
-      bulletS.x = ship.x + ship.l;
+      bulletS.x = ship.x + ship.l / 2;
       bulletS.y = ship.y + ship.l / 2;
     }
     if (!shootingE) {
       shootingE = true;
-      bulletE.x = ship.x + ship.l;
+      bulletE.x = ship.x + ship.l / 2;
       bulletE.y = ship.y + ship.l / 2;
     }
     if (!shootingW) {
       shootingW = true;
-      bulletW.x = ship.x + ship.l;
+      bulletW.x = ship.x + ship.l / 2;
       bulletW.y = ship.y + ship.l / 2;
     }
   }
