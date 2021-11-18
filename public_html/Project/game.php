@@ -1,5 +1,9 @@
+<?php
+require(__DIR__ . "/../../partials/nav.php");
+?>
+<div class="container-fluid"> 
   <canvas id="canvas" width="600" height="400" tabindex="1"></canvas>
-
+</div>
   <style>
     #canvas {
       width: 600px;
@@ -357,5 +361,8 @@
     // Start the game
     menu();
     canvas.focus();
-
   </script>
+
+<?php
+require(__DIR__ . "/../../partials/flash.php");
+?>
