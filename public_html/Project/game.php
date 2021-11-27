@@ -97,8 +97,12 @@ require(__DIR__ . "/../../partials/nav.php");
     return result;
   }
 
-  // Track the user's score
-  var score = 0;
+  let gameData = {
+      // Track the user's score
+      score: 0,
+      sessionData: []
+    }
+
   // The delay between enemies (in milliseconds)
   var timeBetweenEnemies = 5 * 1000;
   // ID to track the spawn timeout
@@ -134,7 +138,7 @@ require(__DIR__ . "/../../partials/nav.php");
 
   // Show the end game screen
   const endGame = () => {
-    /*
+    
     // Stop the spawn interval
     clearInterval(timeoutId);
     // Show the final score
@@ -142,12 +146,12 @@ require(__DIR__ . "/../../partials/nav.php");
     context.fillStyle = '#000000';
     context.font = '24px Arial';
     context.textAlign = 'center';
-    context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
-    */
+    context.fillText('Game Over. Final Score: ' + gameData.score, canvas.width / 2, canvas.height / 2);
+    
 
     if (gameData.score > 0) {
             //TODO save examples
-            let example = 1;
+            let example = 2;
 
             <?php
             //used to prevent duplicate game session data
@@ -240,15 +244,7 @@ require(__DIR__ . "/../../partials/nav.php");
                 });
             }
         }
-    /*// Stop the spawn interval
-    clearInterval(timeoutId);
-    // Show the final score
-    erase();
-    context.fillStyle = '#000000';
-    context.font = '24px Arial';
-    context.textAlign = 'center';
-    context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
-  }*/
+  }
 
   // Listen for keydown events
   canvas.addEventListener('keydown', function(event) {
@@ -384,53 +380,53 @@ require(__DIR__ . "/../../partials/nav.php");
       enemies.forEach(function(enemy, i) {
         if (isColliding(bulletE, enemy) && shootingE == true) {
           enemies.splice(i, 1);
-          score++;
+          gameData.score++;
           shootingE = false;
           // Make the game harder
-          if (score % 10 === 0 && timeBetweenEnemies > 1000) {
+          if (gameData.score % 10 === 0 && timeBetweenEnemies > 1000) {
             clearInterval(timeoutId);
             timeBetweenEnemies -= 1000;
             timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
-          } else if (score % 5 === 0) {
+          } else if (gameData.score % 5 === 0) {
             enemyBaseSpeed += 1;
           }
         }
         if (isColliding(bulletW, enemy) && shootingW == true) {
           enemies.splice(i, 1);
-          score++;
+          gameData.score++;
           shootingW = false;
           // Make the game harder
-          if (score % 10 === 0 && timeBetweenEnemies > 1000) {
+          if (gameData.score % 10 === 0 && timeBetweenEnemies > 1000) {
             clearInterval(timeoutId);
             timeBetweenEnemies -= 1000;
             timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
-          } else if (score % 5 === 0) {
+          } else if (gameData.score % 5 === 0) {
             enemyBaseSpeed += 1;
           }
         }
         if (isColliding(bulletN, enemy)  && shootingN == true) {
           enemies.splice(i, 1);
-          score++;
+          gameData.score++;
           shootingN = false;
           // Make the game harder
-          if (score % 10 === 0 && timeBetweenEnemies > 1000) {
+          if (gameData.score % 10 === 0 && timeBetweenEnemies > 1000) {
             clearInterval(timeoutId);
             timeBetweenEnemies -= 1000;
             timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
-          } else if (score % 5 === 0) {
+          } else if (gameData.score % 5 === 0) {
             enemyBaseSpeed += 1;
           }
         }
         if (isColliding(bulletS, enemy)  && shootingS == true) {
           enemies.splice(i, 1);
-          score++;
+          gameData.score++;
           shootingS = false;
           // Make the game harder
-          if (score % 10 === 0 && timeBetweenEnemies > 1000) {
+          if (gameData.score % 10 === 0 && timeBetweenEnemies > 1000) {
             clearInterval(timeoutId);
             timeBetweenEnemies -= 1000;
             timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
-          } else if (score % 5 === 0) {
+          } else if (gameData.score % 5 === 0) {
             enemyBaseSpeed += 1;
           }
         }
@@ -464,7 +460,8 @@ require(__DIR__ . "/../../partials/nav.php");
     context.fillStyle = '#000000';
     context.font = '24px Arial';
     context.textAlign = 'left';
-    context.fillText('Score: ' + score, 1, 25)
+    context.fillText('Score: ' + gameData.
+    score, 1, 25)
     // End or continue the game
     if (gameOver) {
       endGame();
