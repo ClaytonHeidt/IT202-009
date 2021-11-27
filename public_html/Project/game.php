@@ -133,7 +133,113 @@ require(__DIR__ . "/../../partials/nav.php");
   }
 
   // Show the end game screen
-  function endGame() {
+  const endGame = () => {
+    /*
+    // Stop the spawn interval
+    clearInterval(timeoutId);
+    // Show the final score
+    erase();
+    context.fillStyle = '#000000';
+    context.font = '24px Arial';
+    context.textAlign = 'center';
+    context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
+    */
+
+    if (gameData.score > 0) {
+            //TODO save examples
+            let example = 1;
+
+            <?php
+            //used to prevent duplicate game session data
+            $_SESSION["nonce"] = bin2hex(random_bytes(6));
+            ?>
+            let sd = [];
+            //convert the map to an array
+            for (let key in gameData.sessionData) {
+                sd.push(gameData.sessionData[key]);
+            }
+            let data = {
+                score: gameData.score,
+                nonce: "<?php echo $_SESSION["nonce"]; ?>", //the php will echo the value so the JS will have it as if we hard coded it
+                data: sd
+            }
+            gameData.sessionData = []; //reset
+            if (example === 1) {
+                //original way
+                let http = new XMLHttpRequest();
+                http.onreadystatechange = () => {
+                    if (http.readyState == 4) {
+                        if (http.status === 200) {
+                            let data = JSON.parse(http.responseText);
+                            console.log("received data", data);
+                            console.log("Saved score");
+                        }
+                        window.location.reload(); //lazily reloading the page to get a new nonce for next game
+                    }
+                }
+                http.open("POST", "api/save_score.php", true);
+                //Convert a simple object to query params
+                {
+                    //examples to convert data to query string parameters (used for XMLHttpRequest send)
+                    //https://howchoo.com/javascript/how-to-turn-an-object-into-query-string-parameters-in-javascript
+                    let query = null;
+                    //ES6
+                    query = Object.keys(data).map(key => key + '=' + data[key]).join('&');
+                    console.log("query1", query);
+                    //ES5
+                    query = Object.keys(data).map(function(key) {
+                        return key + '=' + data[key]
+                    }).join('&');
+                    console.log("query2", query);
+                    //jQuery
+                    if ($) {
+                        query = $.param(data);
+                        console.log("query3", query);
+                    }
+                    //Note: I don't need the above query param stuff since my data is too complex for a form submit
+                    //so I need to use JSON instead
+                }
+                http.setRequestHeader('Content-Type', 'application/json');
+                http.send(JSON.stringify({
+                    "data": data
+                }));
+            } else if (example === 2) {
+                //fetch api way
+                fetch("api/save_score.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json",
+                        "X-Requested-With": "XMLHttpRequest",
+                    },
+                    body: JSON.stringify({
+                        "data": data
+                    })
+                }).then(async res => {
+                    let data = await res.json();
+                    console.log("received data", data);
+                    console.log("saved score");
+                    window.location.reload(); //lazily reloading the page to get a new nonce for next game
+                })
+            } else if (example === 3) {
+                //jquery way
+                $.ajax({
+                    type: "POST",
+                    url: "api/save_score.php",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        data: data
+                    }),
+                    success: (resp, status, xhr) => {
+                        console.log(resp, status, xhr);
+                        window.location.reload(); //lazily reloading the page to get a new nonce for next game
+                    },
+                    error: (xhr, status, error) => {
+                        console.log(xhr, status, error);
+                        window.location.reload();
+                    }
+                });
+            }
+        }
     // Stop the spawn interval
     clearInterval(timeoutId);
     // Show the final score
