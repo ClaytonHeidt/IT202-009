@@ -240,7 +240,7 @@ require(__DIR__ . "/../../partials/nav.php");
                 });
             }
         }
-    // Stop the spawn interval
+    /*// Stop the spawn interval
     clearInterval(timeoutId);
     // Show the final score
     erase();
@@ -248,7 +248,7 @@ require(__DIR__ . "/../../partials/nav.php");
     context.font = '24px Arial';
     context.textAlign = 'center';
     context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
-  }
+  }*/
 
   // Listen for keydown events
   canvas.addEventListener('keydown', function(event) {
