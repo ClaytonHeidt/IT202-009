@@ -222,7 +222,7 @@ require(__DIR__ . "/../../partials/nav.php");
                     let data = await res.json();
                     console.log("received data", data);
                     console.log("saved score");
-                    window.location.reload(); //lazily reloading the page to get a new nonce for next game
+                    //window.location.reload(); //lazily reloading the page to get a new nonce for next game
                 })
             } else if (example === 3) {
                 //jquery way
