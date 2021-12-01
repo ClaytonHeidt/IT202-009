@@ -20,8 +20,9 @@ require(__DIR__ . "/../../partials/nav.php");
         echo "<br>Your current role is ";
         print_r($role);
     }
-
+    $duration = "week";
     ?>
+    <?php require(__DIR__ . "/../../partials/score_table.php"); ?>
 </div>
 <?php
 require(__DIR__ . "/../../partials/flash.php");
