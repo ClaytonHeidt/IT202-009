@@ -16,7 +16,7 @@ function changeDuration(){
     //document.getElementById("lvl").innerHTML=("Level: " +level);
     changeDuration();
     window.location.reload();
-    <?php $duration = "week"; ?>
+    <?php $duration = "month"; ?>
 </script>
 
 <div class="container-fluid">
@@ -42,10 +42,11 @@ function changeDuration(){
     <br><br>
     <select id="duration" onchange='changeDuration()'>  
         <option value="day">Day</option>}  
-        <option value="week">Week</option>  
+        <option value="week">Week</option>
+        <option value="month">Month</option>
         <option value="lifetime">Lifetime</option>  
     </select> 
-
+    <?php $duration = "lifetime"; ?>
     <?php require(__DIR__ . "/../../partials/score_table.php"); ?>
 </div>
 <?php
