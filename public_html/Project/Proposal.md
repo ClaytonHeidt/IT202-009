@@ -150,45 +150,55 @@
           - Screenshot #3 description: Allow password reset (only if the existing correct password is provided)
 
 - **Milestone 2**
-  - [ ] (mm/dd/yyyy of completion) Pick a simple game to implement, anything that generates a score that’s more advanced than a simple random number generator (may build off of a sample from the site shared in class)
+  - [x] (11/26/2021) Pick a simple game to implement, anything that generates a score that’s more advanced than a simple random number generator (may build off of a sample from the site shared in class)
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://cjh47-prod.herokuapp.com/Project/game.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/56
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/144173522-11c20168-9df9-4a7c-8736-0d68da2d4e26.png)
+          - Screenshot #1 description: The current state of my arcade shooter game called "Star Shooter". Check the GitHub pull request page for full description of Star Shooter.
 
-  - [ ] (mm/dd/yyyy of completion) The system will save the user’s score at the end of the game if the user is logged in
+  - [x] (11/30/2021) The system will save the user’s score at the end of the game if the user is logged in
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://cjh47-prod.herokuapp.com/Project/game.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/57 
+        - PR link #2: https://github.com/ClaytonHeidt/IT202-009/pull/59
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/144174181-97cff307-32c7-47b6-aca0-a5ee9e0359b7.png)
+          - Screenshot #1 description: scores table (id, user_id, score, created) created in the database.
+        - Screenshot #2: ![image](https://user-images.githubusercontent.com/90278160/144174256-796aba1f-f71a-475d-b5aa-0cef701b51b2.png)
+          - Screenshot #2 description: Each received score is a new entry (scores will not be updated)
 
-  - [ ] (mm/dd/yyyy of completion) The user will be able to see their last 10 scores
+  - [x] (11/30/2021) The user will be able to see their last 10 scores
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://cjh47-prod.herokuapp.com/Project/profile.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/60
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/144174884-4bd09b7d-62e4-4042-8928-d9b5cc9b7407.png)
+          - Screenshot #1 description: scores are shown on user's profile page and ordered by most recent
 
-  - [ ] (mm/dd/yyyy of completion) Create functions that output the following scoreboards (this will be used later)
+  - [x] (11/30/2021) Create functions that output the following scoreboards (this will be used later)
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://cjh47-prod.herokuapp.com/Project/home.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/60
+        - PR link #2: https://github.com/ClaytonHeidt/IT202-009/pull/62
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/144175451-91a97b29-d196-43b8-a3f7-676047dd9acf.png)
+          - Screenshot #1 description: Top 10 Weekly scoreboard
+        - Screenshot #2: ![image](https://user-images.githubusercontent.com/90278160/144176139-c16967da-9da9-494e-8c2b-848abfec0aa0.png)
+          - Screenshot #2 description: Top 10 Monthly scoreboard
+        - Screenshot #3: ![image](https://user-images.githubusercontent.com/90278160/144176185-ebcda546-7709-432a-9e7c-aebee84811da.png)
+          - Screenshot #3 description: Top 10 Lifetime scoreboard
+        - Screenshot #4: ![image]![image](https://user-images.githubusercontent.com/90278160/144175950-806783a8-fb79-40ce-95c8-24bee94c85dd.png)
+          - Screenshot #4 description: Code that shows that scoreboards should show no more than 10 results and if there are no results a proper message will be displayed
 
 - **Milestone 3**
   - [ ] (mm/dd/yyyy of completion) Users will have points associated with their account
