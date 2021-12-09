@@ -233,3 +233,13 @@ function get_user_points()
 
     return $points;
 }
+
+function get_user_role()
+{
+    $db = getDB();
+    $stmt = $db->prepare("SELECT name FROM Roles WHERE id=?");
+    $stmt->execute([get_user_id()]);
+    $role = $stmt->fetchColumn();
+
+    return $role;
+}
