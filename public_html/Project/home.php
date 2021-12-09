@@ -22,6 +22,8 @@ function changeDuration(){
 <div class="container-fluid">
     <h1>Home</h1>
     <?php
+    //$user_id = get_user_id();
+    $points = get_user_points();
 
     if (is_logged_in(true)) {
         echo "Welcome home, " . get_username();
@@ -38,6 +40,11 @@ function changeDuration(){
         echo "<br>Your current role is ";
         print_r($role);
     }
+
+    //Tells the user how many points they have
+    echo "<br>Points: ";
+    print_r($points);
+
     ?>
     <br><br>
     <select id="duration" onchange='changeDuration()'>  

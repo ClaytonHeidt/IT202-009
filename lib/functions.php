@@ -194,7 +194,7 @@ function get_best_score($user_id)
             return (int)se($r, "score", 0, false);
         }
     } catch (PDOException $e) {
-        error_log("Error fetching best score for user $user_id: " . var_export($e->errorInfo, true));
+        error_log("Error fetching points for user $user_id: " . var_export($e->errorInfo, true));
     }
     return 0;
 }
@@ -222,4 +222,14 @@ function get_latest_scores($user_id, $limit = 10)
         error_log("Error getting latest $limit scores for user $user_id: " . var_export($e->errorInfo, true));
     }
     return [];
+}
+
+function get_user_points()
+{
+    $db = getDB();
+    $stmt = $db->prepare("SELECT points FROM Users WHERE id=?");
+    $stmt->execute([get_user_id()]);
+    $points = $stmt->fetchColumn();
+
+    return $points;
 }
