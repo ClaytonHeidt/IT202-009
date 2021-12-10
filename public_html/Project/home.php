@@ -22,6 +22,8 @@ function changeDuration(){
 <div class="container-fluid">
     <h1>Home</h1>
     <?php
+    $role = get_user_role();
+    $points = get_user_points();
 
     if (is_logged_in(true)) {
         echo "Welcome home, " . get_username();
@@ -30,14 +32,15 @@ function changeDuration(){
     }
     
     //Tells the user what their current role is
-    $db = getDB();
-    $stmt = $db->prepare("SELECT name FROM Roles WHERE id=?");
-    $stmt->execute([get_user_id()]);
-    $role = $stmt->fetchColumn();
     if (!$role == "") {
         echo "<br>Your current role is ";
         print_r($role);
     }
+
+    //Tells the user how many points they have
+    echo "<br>Points: ";
+    print_r($points);
+
     ?>
     <br><br>
     <select id="duration" onchange='changeDuration()'>  
