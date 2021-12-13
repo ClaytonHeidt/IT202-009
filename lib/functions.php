@@ -243,3 +243,25 @@ function get_user_role()
 
     return $role;
 }
+
+function save_points($pointChange, $user_id, $reason, $showFlash)
+{
+    $db = getDB();
+    $stmt = $db->prepare("SELECT points FROM Users WHERE id=?");
+    $stmt->execute([get_user_id()]);
+    $points = $stmt->fetchColumn();
+    $pointSum = $points + $pointChange;
+
+    $stmt = $db->prepare("INSERT INTO PointHistory (point_change, user_id, reason) VALUES (:pchange, :uid, :r)");
+    try {
+        $stmt->execute([":pchange" => $pointChange, ":uid" => $user_id, ":r" => $reason]);
+        if ($showFlash) {
+            flash("Successfully updated PointHistory table", "success");
+        }
+    } catch (PDOException $e) {
+        flash("Error: " . var_export($e->errorInfo, true), "danger");
+    }
+
+    $stmt = $db->prepare("UPDATE Users SET points $pointSum WHERE id=?");
+    $stmt->execute([get_user_id()]);
+}
