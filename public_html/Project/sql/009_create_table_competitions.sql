@@ -19,5 +19,12 @@ CREATE TABLE IF NOT EXISTS Competitions(
     third_place_per INT DEFAULT 10,
     cost_to_create INT DEFAULT (1 + starting_reward),
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP
+    modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+    check (starting_reward >= 1),
+    check (first_place_per + second_place_per + third_place_per = 100),
+    check (join_cost >= 0),
+    check (duration >= 1),
+    check (min_score >= 0),
+    check (min_participants >= 3),
+    check (current_reward >= starting_reward)
 )
