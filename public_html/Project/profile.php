@@ -90,11 +90,14 @@ if (isset($_POST["save"])) {
 $email = get_user_email();
 $username = get_username();
 $user_id = get_user_id();
+$points = get_user_points();
 ?>
 <div class="container-fluid">
     <h1>Profile</h1>
     <div>
         Best Score: <?php echo get_best_score($user_id); ?>
+        <?php echo "<br>"; ?>
+        Points: <?php echo $points; ?>
     </div>
     <div>
         <?php $scores = get_latest_scores($user_id); ?>
