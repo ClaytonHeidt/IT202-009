@@ -197,13 +197,14 @@
           - Screenshot #2 description: Top 10 Monthly scoreboard
         - Screenshot #3: ![image](https://user-images.githubusercontent.com/90278160/144176185-ebcda546-7709-432a-9e7c-aebee84811da.png)
           - Screenshot #3 description: Top 10 Lifetime scoreboard
-        - Screenshot #4: ![image]![image](https://user-images.githubusercontent.com/90278160/144175950-806783a8-fb79-40ce-95c8-24bee94c85dd.png)
+        - Screenshot #4: ![image](https://user-images.githubusercontent.com/90278160/145660547-987b3e16-ada3-4b11-a7be-aa25ca81bd40.png)
+
           - Screenshot #4 description: Code that shows that scoreboards should show no more than 10 results and if there are no results a proper message will be displayed
 
 - **Milestone 3**
-  - [ ] (mm/dd/yyyy of completion) Users will have points associated with their account
+  - [x] (12/9/2021) Users will have points associated with their account
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Status: Completed
       - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
       - Pull Requests
         - PR link #1 (repeat as necessary)
@@ -291,7 +292,96 @@
         - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
           - Screenshot #1 description explaining what you're trying to show
 
-- Milestone 4
+- **Milestone 4**
+  - [ ] (mm/dd/yyyy of completion) User can set their profile to be public or private (will need another column in Users table)
+    -  List of Evidence of Feature Completion
+      - Status: Pending (Completed, Partially working, Incomplete, Pending)
+      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Pull Requests
+        - PR link #1 (repeat as necessary)
+      - Screenshots
+        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+          - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] (mm/dd/yyyy of completion) User will be able to see their competition history
+      -  List of Evidence of Feature Completion
+        - Status: Pending (Completed, Partially working, Incomplete, Pending)
+        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Pull Requests
+          - PR link #1 (repeat as necessary)
+        - Screenshots
+          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+            - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] (mm/dd/yyyy of completion) User with the role of “admin” can edit a competition where paid_out = false
+      -  List of Evidence of Feature Completion
+        - Status: Pending (Completed, Partially working, Incomplete, Pending)
+        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Pull Requests
+          - PR link #1 (repeat as necessary)
+        - Screenshots
+          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+            - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] (mm/dd/yyyy of completion) Add pagination to the Active Competitions view
+      -  List of Evidence of Feature Completion
+        - Status: Pending (Completed, Partially working, Incomplete, Pending)
+        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Pull Requests
+          - PR link #1 (repeat as necessary)
+        - Screenshots
+          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+            - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] (mm/dd/yyyy of completion) Anywhere a username is displayed should be a link to that user’s profile
+      -  List of Evidence of Feature Completion
+        - Status: Pending (Completed, Partially working, Incomplete, Pending)
+        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Pull Requests
+          - PR link #1 (repeat as necessary)
+        - Screenshots
+          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+            - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] (mm/dd/yyyy of completion) Viewing an active or expired competition should show the top 10 scoreboard related to that competition
+      -  List of Evidence of Feature Completion
+        - Status: Pending (Completed, Partially working, Incomplete, Pending)
+        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Pull Requests
+          - PR link #1 (repeat as necessary)
+        - Screenshots
+          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+            - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] (mm/dd/yyyy of completion) Game should be fully implemented/complete by this point
+      -  List of Evidence of Feature Completion
+        - Status: Pending (Completed, Partially working, Incomplete, Pending)
+        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Pull Requests
+          - PR link #1 (repeat as necessary)
+        - Screenshots
+          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+            - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] (mm/dd/yyyy of completion) User’s score history will include pagination
+      -  List of Evidence of Feature Completion
+        - Status: Pending (Completed, Partially working, Incomplete, Pending)
+        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Pull Requests
+          - PR link #1 (repeat as necessary)
+        - Screenshots
+          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+            - Screenshot #1 description explaining what you're trying to show
+
+  - [ ] (mm/dd/yyyy of completion) Home page will have a weekly, monthly, and lifetime scoreboard
+      -  List of Evidence of Feature Completion
+        - Status: Pending (Completed, Partially working, Incomplete, Pending)
+        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Pull Requests
+          - PR link #1 (repeat as necessary)
+        - Screenshots
+          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
+            - Screenshot #1 description explaining what you're trying to show
 ### Intructions
 #### Don't delete this
 1. Pick one project type
