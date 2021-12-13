@@ -243,3 +243,59 @@ function get_user_role()
 
     return $role;
 }
+
+function update_points($pointChange, $reason)
+{
+    $user_id = get_user_id();
+    $showFlash = false;
+    $db = getDB();
+    $stmt = $db->prepare("SELECT points FROM Users WHERE id=?");
+    $stmt->execute([get_user_id()]);
+    $points = $stmt->fetchColumn();
+    $pointSum = $points + $pointChange;
+
+    $stmt = $db->prepare("INSERT INTO PointsHistory (point_change, user_id, reason) VALUES (:pchange, :uid, :r)");
+    try {
+        $stmt->execute([":pchange" => $pointChange, ":uid" => $user_id, ":r" => $reason]);
+        if ($showFlash) {
+            flash("Successfully updated PointsHistory table", "success");
+        }
+    } catch (PDOException $e) {
+        flash("Error: " . var_export($e->errorInfo, true), "danger");
+    }
+
+    $query = "UPDATE Users SET points=$pointSum WHERE id=$user_id";
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute();
+        if ($showFlash) {
+            flash("Successfully updated points ($pointSum) in Users table", "success");
+        }
+    } catch (PDOException $e) {
+        flash("Error: " . var_export($e->errorInfo, true), "danger");
+    }
+}
+
+function get_last_score()
+{
+    $user_id = get_user_id();
+    $limit = 1;
+    $query = "SELECT score from Scores where user_id = :id ORDER BY created desc LIMIT :limit";
+    $db = getDB();
+    //IMPORTANT: this is required for the execute to set the limit variables properly
+    //otherwise it'll convert the values to a string and the query will fail since LIMIT expects only numerical values and doesn't cast
+    $db->setAttribute(PDO::ATTR_EMULATE_PREPARES, false);
+    //END IMPORTANT
+
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute([":id" => $user_id, ":limit" => $limit]);
+        $r = $stmt->fetchColumn();
+        if ($r) {
+            return $r;
+        }
+    } catch (PDOException $e) {
+        error_log("Error getting latest $limit scores for user $user_id: " . var_export($e->errorInfo, true));
+    }
+    return [];
+}
