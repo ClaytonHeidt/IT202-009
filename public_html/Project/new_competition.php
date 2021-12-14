@@ -2,17 +2,20 @@
 require_once(__DIR__ . "/../../partials/nav.php");
 is_logged_in(true);
 
-/*if (isset($_POST["title"]) && !empty($_POST["title"])) {
+if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $cost = (int)se($_POST, "starting_reward", 0, false);
     $cost++;
     $cost += (int)se($_POST, "join_cost", 0, false);
-    $title = se($_POST, "title", "N/A", false);
-    $balance = get_account_balance();
-    if ($balance >= $cost) {
+    $cost *= -1;
+    echo '<script>';
+    echo 'console.log(' . $cost . ')';
+    echo '</script>';
+    $name = se($_POST, "name", "N/A", false);
+    $points = get_user_points();
+    if ($points >= $cost) {
         $db->beginTransaction();
-        if (change_bills($cost, "create_comp", get_user_account_id(), -1, "New Competition $title")) {
-            $_POST["creator_id"] = get_user_id();
-            $comp_id = save_data("BGD_Competitions", $_POST);
+        if (update_points($cost, "created_comp")){
+            $comp_id = save_data("Competitions", $_POST);
             if ($comp_id > 0) {
                 if (add_to_competition($comp_id, get_user_id())) {
                     flash("Successfully created competition", "success");
@@ -30,7 +33,7 @@ is_logged_in(true);
     } else {
         flash("You can't afford this right now", "warning");
     }
-}*/
+}
 ?>
 
 <div class="container-fluid">
@@ -78,8 +81,8 @@ is_logged_in(true);
     </form>
     <script>
         function updateCost() {
-            let starting = parseInt(document.getElementById("reward").value || 0) + 1;
-            let join = parseInt(document.getElementById("jc").value || 0);
+            let starting = parseInt(document.getElementById("sreward").value || 0) + 1;
+            let join = parseInt(document.getElementById("jf").value || 0);
             if (join < 0) {
                 join = 1;
             }
