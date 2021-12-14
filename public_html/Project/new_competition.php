@@ -3,35 +3,33 @@ require_once(__DIR__ . "/../../partials/nav.php");
 is_logged_in(true);
 
 if (isset($_POST["name"]) && !empty($_POST["name"])) {
+    $first = (int)se($_POST, "first_place_per", 0, false);
+    $second = (int)se($_POST, "second_place_per", 0, false);
+    $third = (int)se($_POST, "third_place_per", 0, false);
+    $total = $first + $second + $third;
+
     $cost = (int)se($_POST, "starting_reward", 0, false);
     $cost++;
-    $cost += (int)se($_POST, "join_cost", 0, false);
     $cost *= -1;
-    echo '<script>';
-    echo 'console.log(' . $cost . ')';
-    echo '</script>';
+
     $name = se($_POST, "name", "N/A", false);
     $points = get_user_points();
-    if ($points >= $cost) {
-        $db->beginTransaction();
-        if (update_points($cost, "created_comp")){
+    if ($total == 100) {
+        if ($points >= $cost) {
+            update_points($cost, "created_comp");
             $comp_id = save_data("Competitions", $_POST);
             if ($comp_id > 0) {
                 if (add_to_competition($comp_id, get_user_id())) {
                     flash("Successfully created competition", "success");
-                    $db->commit();
                 } else {
-                    $db->rollback();
+                    flash("Something went wrong while creating competition", "warning");                   
                 }
-            } else {
-                $db->rollback();
             }
         } else {
-            flash("There was a problem deducting points", "warning");
-            $db->rollback();
+            flash("You can't afford this right now", "warning");
         }
     } else {
-        flash("You can't afford this right now", "warning");
+        flash("Reward percentage has to add up to 100%", "warning");
     }
 }
 ?>
@@ -61,32 +59,27 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
         </div>
         <div class="mb-3">
             <label for="dur" class="form-label">Competition Duration (in Days)</label>
-            <input id="dur" name="duration" type="number" class="form-control" placeholder=">= 3" min="3" />
+            <input id="dur" name="duration" type="number" class="form-control" placeholder=">= 1" min="1" />
         </div>
         <div class="mb-3">
             <label for="fpp" class="form-label">Reward Percentage for 1st place (out of 100 %)</label>
-            <input id="fpp" name="first_place_per" type="number" class="form-control" placeholder="60 %" />
+            <input id="fpp" name="first_place_per" type="number" class="form-control" placeholder="60%" />
         </div>
         <div class="mb-3">
             <label for="spp" class="form-label">Reward Percentage for 2nd place (out of 100 %)</label>
-            <input id="spp" name="second_place_per" type="number" class="form-control" placeholder="30 %" />
+            <input id="spp" name="second_place_per" type="number" class="form-control" placeholder="30%" />
         </div>
         <div class="mb-3">
             <label for="tpp" class="form-label">Reward Percentage for 3rd place (out of 100 %)</label>
-            <input id="tpp" name="third_place_per" type="number" class="form-control" placeholder="10 %" />
+            <input id="tpp" name="third_place_per" type="number" class="form-control" placeholder="10%" />
         </div>
         <div class="mb-3">
-            <input type="submit" value="Create Competition (Point Cost = 1 + Starting Reward)" class="btn btn-primary" />
+            <input type="submit" value="Create Competition (Cost: 2 Points)" class="btn btn-primary" />
         </div>
     </form>
     <script>
         function updateCost() {
-            let starting = parseInt(document.getElementById("sreward").value || 0) + 1;
-            let join = parseInt(document.getElementById("jf").value || 0);
-            if (join < 0) {
-                join = 1;
-            }
-            let cost = starting + join;
+            let cost = parseInt(document.getElementById("sreward").value || 0) + 1;
             document.querySelector("[type=submit]").value = `Create Competition (Cost: ${cost} Points)`;
         }
     </script>

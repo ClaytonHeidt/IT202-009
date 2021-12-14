@@ -338,8 +338,8 @@ function save_data($table, $data)
 function update_participants($comp_id)
 {
     $db = getDB();
-    $stmt = $db->prepare("UPDATE Competitions set current_participants = (SELECT IFNULL(COUNT(1),0) FROM BGD_UserComps WHERE comp_id = :cid), 
-    current_reward = IF(join_cost > 0, current_reward + CEILING(join_cost * 0.5), current_reward) WHERE id = :cid");
+    $stmt = $db->prepare("UPDATE Competitions set current_participants = (SELECT IFNULL(COUNT(1),0) FROM CompetitionParticipants WHERE comp_id = :cid), 
+    current_reward = IF(join_fee > 0, current_reward + CEILING(join_fee * 0.5), current_reward) WHERE id = :cid");
     try {
         $stmt->execute([":cid" => $comp_id]);
         return true;
@@ -352,7 +352,7 @@ function update_participants($comp_id)
 function add_to_competition($comp_id, $user_id)
 {
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO BGD_UserComps (user_id, competition_id) VALUES (:uid, :cid)");
+    $stmt = $db->prepare("INSERT INTO CompetitionParticipants (user_id, comp_id) VALUES (:uid, :cid)");
     try {
         $stmt->execute([":uid" => $user_id, ":cid" => $comp_id]);
         update_participants($comp_id);
