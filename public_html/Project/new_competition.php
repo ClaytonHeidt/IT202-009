@@ -6,9 +6,6 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $cost = (int)se($_POST, "starting_reward", 0, false);
     $cost++;
     $cost *= -1;
-    echo '<script>';
-    echo 'console.log(' . $cost . ')';
-    echo '</script>';
     $name = se($_POST, "name", "N/A", false);
     $points = get_user_points();
     if ($points >= $cost) {
@@ -17,15 +14,13 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
         if ($comp_id > 0) {
             if (add_to_competition($comp_id, get_user_id())) {
                 flash("Successfully created competition", "success");
-                } else {
-                    flash("Something went wrong while creating competition", "warning");                   
-                }
+            } else {
+                flash("Something went wrong while creating competition", "warning");                   
+            }
         }
     } else {
         flash("You can't afford this right now", "warning");
     }
-} else {
-    flash("Please fill out all fields", "warning");
 }
 ?>
 
@@ -74,12 +69,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     </form>
     <script>
         function updateCost() {
-            let starting = parseInt(document.getElementById("sreward").value || 0) + 1;
-            let join = parseInt(document.getElementById("jf").value || 0);
-            if (join < 0) {
-                join = 1;
-            }
-            let cost = starting + join;
+            let cost = parseInt(document.getElementById("sreward").value || 0) + 1;
             document.querySelector("[type=submit]").value = `Create Competition (Cost: ${cost} Points)`;
         }
     </script>
