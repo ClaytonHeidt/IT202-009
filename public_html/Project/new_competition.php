@@ -58,19 +58,19 @@ try {
             <input id="reward" type="number" name="starting_reward" class="form-control" onchange="updateCost()" placeholder=">= 1" min="1" />
         </div>
         <div class="mb-3">
-            <label for="ms" class="form-label">Min. Score</label>
+            <label for="ms" class="form-label">Minimum Score (That Qualifies)</label>
             <input id="ms" name="min_score" type="number" class="form-control" placeholder=">= 0" min="0" />
         </div>
         <div class="mb-3">
-            <label for="mp" class="form-label">Min. Participants</label>
+            <label for="mp" class="form-label">Minimum Participants</label>
             <input id="mp" name="min_participants" type="number" class="form-control" placeholder=">= 3" min="3" />
         </div>
         <div class="mb-3">
-            <label for="jc" class="form-label">Join Cost</label>
+            <label for="jc" class="form-label">Cost to Join</label>
             <input id="jc" name="join_cost" type="number" class="form-control" onchange="updateCost()" placeholder=">= 0" min="0" />
         </div>
         <div class="mb-3">
-            <label for="duration" class="form-label">Duration (in Days)</label>
+            <label for="duration" class="form-label">Competition Duration (in Days)</label>
             <input id="duration" name="duration" type="number" class="form-control" placeholder=">= 3" min="3" />
         </div>
         <div class="mb-3">
@@ -82,7 +82,7 @@ try {
             </select>
         </div>
         <div class="mb-3">
-            <input type="submit" value="Create Competition (Cost: 2)" class="btn btn-primary" />
+            <input type="submit" value="Create Competition" class="btn btn-primary" />
         </div>
     </form>
     <script>
