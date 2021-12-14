@@ -236,9 +236,10 @@ function get_user_points()
 
 function get_user_role()
 {
+    $user_id = get_user_id();
     $db = getDB();
-    $stmt = $db->prepare("SELECT name FROM Roles WHERE id=?");
-    $stmt->execute([get_user_id()]);
+    $stmt = $db->prepare("SELECT name FROM Roles WHERE id=$user_id");
+    $stmt->execute();
     $role = $stmt->fetchColumn();
 
     return $role;
@@ -249,8 +250,8 @@ function update_points($pointChange, $reason)
     $user_id = get_user_id();
     $showFlash = false;
     $db = getDB();
-    $stmt = $db->prepare("SELECT points FROM Users WHERE id=?");
-    $stmt->execute([get_user_id()]);
+    $stmt = $db->prepare("SELECT points FROM Users WHERE id=$user_id");
+    $stmt->execute();
     $points = $stmt->fetchColumn();
     $pointSum = $points + $pointChange;
 
@@ -270,9 +271,11 @@ function update_points($pointChange, $reason)
         $stmt->execute();
         if ($showFlash) {
             flash("Successfully updated points ($pointSum) in Users table", "success");
+            return true;
         }
     } catch (PDOException $e) {
         flash("Error: " . var_export($e->errorInfo, true), "danger");
+        return false;
     }
 }
 
@@ -298,4 +301,64 @@ function get_last_score()
         error_log("Error getting latest $limit scores for user $user_id: " . var_export($e->errorInfo, true));
     }
     return [];
+}
+
+function save_data($table, $data)
+{
+    $ignore = ["submit"];
+    $table = se($table, null, null, false);
+    $db = getDB();
+    $query = "INSERT INTO $table "; //be sure you trust $table
+    //https://www.php.net/manual/en/functions.anonymous.php Example#3
+    $columns = array_filter(array_keys($data), function ($x) use ($ignore) {
+        return !in_array($x, $ignore); // $x !== "submit";
+    });
+    //arrow function uses fn and doesn't have return or { }
+    //https://www.php.net/manual/en/functions.arrow.php
+    $placeholders = array_map(fn ($x) => ":$x", $columns);
+    $query .= "(" . join(",", $columns) . ") VALUES (" . join(",", $placeholders) . ")";
+
+    $params = [];
+    foreach ($columns as $col) {
+        $params[":$col"] = $data[$col];
+    }
+    $stmt = $db->prepare($query);
+    try {
+        $stmt->execute($params);
+        //https://www.php.net/manual/en/pdo.lastinsertid.php
+        //echo "Successfully added new record with id " . $db->lastInsertId();
+        return $db->lastInsertId();
+    } catch (PDOException $e) {
+        //echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
+        flash("<pre>" . var_export($e->errorInfo, true) . "</pre>");
+        return -1;
+    }
+}
+
+function update_participants($comp_id)
+{
+    $db = getDB();
+    $stmt = $db->prepare("UPDATE Competitions set current_participants = (SELECT IFNULL(COUNT(1),0) FROM CompetitionParticipants WHERE comp_id = :cid), 
+    current_reward = IF(join_fee > 0, current_reward + CEILING(join_fee * 0.5), current_reward) WHERE id = :cid");
+    try {
+        $stmt->execute([":cid" => $comp_id]);
+        return true;
+    } catch (PDOException $e) {
+        error_log("Update competition participant error: " . var_export($e, true));
+    }
+    return false;
+}
+
+function add_to_competition($comp_id, $user_id)
+{
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO CompetitionParticipants (user_id, comp_id) VALUES (:uid, :cid)");
+    try {
+        $stmt->execute([":uid" => $user_id, ":cid" => $comp_id]);
+        update_participants($comp_id);
+        return true;
+    } catch (PDOException $e) {
+        error_log("Join Competition error: " . var_export($e, true));
+    }
+    return false;
 }

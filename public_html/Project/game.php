@@ -1,5 +1,6 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+is_logged_in(true);
 ?>
 
 <div class="container-fluid">
@@ -122,7 +123,7 @@ require(__DIR__ . "/../../partials/nav.php");
     context.fillStyle = '#000000';
     context.font = '36px Arial';
     context.textAlign = 'center';
-    context.fillText('Shoot \'Em!', canvas.width / 2, canvas.height / 4);
+    context.fillText('Star Shooter!', canvas.width / 2, canvas.height / 4);
     context.font = '24px Arial';
     context.fillText('Click to Start', canvas.width / 2, canvas.height / 2);
     context.font = '18px Arial';
