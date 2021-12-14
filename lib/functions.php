@@ -352,7 +352,7 @@ function update_participants($comp_id)
 function add_to_competition($comp_id, $user_id)
 {
     $db = getDB();
-    $stmt = $db->prepare("INSERT INTO BGD_UserComps (user_id, competition_id) VALUES (:uid, :cid)");
+    $stmt = $db->prepare("INSERT INTO CompetitionParticipants (user_id, competition_id) VALUES (:uid, :cid)");
     try {
         $stmt->execute([":uid" => $user_id, ":cid" => $comp_id]);
         update_participants($comp_id);

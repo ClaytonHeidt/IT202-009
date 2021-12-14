@@ -5,7 +5,6 @@ is_logged_in(true);
 if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $cost = (int)se($_POST, "starting_reward", 0, false);
     $cost++;
-    $cost += (int)se($_POST, "join_fee", 0, false);
     $cost *= -1;
     echo '<script>';
     echo 'console.log(' . $cost . ')';
@@ -13,22 +12,14 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $name = se($_POST, "name", "N/A", false);
     $points = get_user_points();
     if ($points >= $cost) {
-        $db->beginTransaction();
-        if (update_points($cost, "created_comp")){
-            $comp_id = save_data("Competitions", $_POST);
-            if ($comp_id > 0) {
-                if (add_to_competition($comp_id, get_user_id())) {
-                    flash("Successfully created competition", "success");
-                    $db->commit();
+        update_points($cost, "created_comp");
+        $comp_id = save_data("Competitions", $_POST);
+        if ($comp_id > 0) {
+            if (add_to_competition($comp_id, get_user_id())) {
+                flash("Successfully created competition", "success");
                 } else {
-                    $db->rollback();
+                    flash("Something went wrong while creating competition", "warning");                   
                 }
-            } else {
-                $db->rollback();
-            }
-        } else {
-            flash("There was a problem deducting points", "warning");
-            $db->rollback();
         }
     } else {
         flash("You can't afford this right now", "warning");
@@ -78,7 +69,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
             <input id="tpp" name="third_place_per" type="number" class="form-control" placeholder="10 %" />
         </div>
         <div class="mb-3">
-            <input type="submit" value="Create Competition" class="btn btn-primary" />
+            <input type="submit" value="Create Competition (Cost: 2 Points)" class="btn btn-primary" />
         </div>
     </form>
     <script>
