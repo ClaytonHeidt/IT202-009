@@ -3,23 +3,33 @@ require_once(__DIR__ . "/../../partials/nav.php");
 is_logged_in(true);
 
 if (isset($_POST["name"]) && !empty($_POST["name"])) {
+    $first = (int)se($_POST, "first_place_per", 0, false);
+    $second = (int)se($_POST, "second_place_per", 0, false);
+    $third = (int)se($_POST, "third_place_per", 0, false);
+    $total = $first + $second + $third;
+
     $cost = (int)se($_POST, "starting_reward", 0, false);
     $cost++;
     $cost *= -1;
+
     $name = se($_POST, "name", "N/A", false);
     $points = get_user_points();
-    if ($points >= $cost) {
-        update_points($cost, "created_comp");
-        $comp_id = save_data("Competitions", $_POST);
-        if ($comp_id > 0) {
-            if (add_to_competition($comp_id, get_user_id())) {
-                flash("Successfully created competition", "success");
-            } else {
-                flash("Something went wrong while creating competition", "warning");                   
+    if ($total == 100) {
+        if ($points >= $cost) {
+            update_points($cost, "created_comp");
+            $comp_id = save_data("Competitions", $_POST);
+            if ($comp_id > 0) {
+                if (add_to_competition($comp_id, get_user_id())) {
+                    flash("Successfully created competition", "success");
+                } else {
+                    flash("Something went wrong while creating competition", "warning");                   
+                }
             }
+        } else {
+            flash("You can't afford this right now", "warning");
         }
     } else {
-        flash("You can't afford this right now", "warning");
+        flash("Reward percentage has to add up to 100%", "warning");
     }
 }
 ?>
@@ -53,15 +63,15 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
         </div>
         <div class="mb-3">
             <label for="fpp" class="form-label">Reward Percentage for 1st place (out of 100 %)</label>
-            <input id="fpp" name="first_place_per" type="number" class="form-control" placeholder="60 %" />
+            <input id="fpp" name="first_place_per" type="number" class="form-control" placeholder="60%" />
         </div>
         <div class="mb-3">
             <label for="spp" class="form-label">Reward Percentage for 2nd place (out of 100 %)</label>
-            <input id="spp" name="second_place_per" type="number" class="form-control" placeholder="30 %" />
+            <input id="spp" name="second_place_per" type="number" class="form-control" placeholder="30%" />
         </div>
         <div class="mb-3">
             <label for="tpp" class="form-label">Reward Percentage for 3rd place (out of 100 %)</label>
-            <input id="tpp" name="third_place_per" type="number" class="form-control" placeholder="10 %" />
+            <input id="tpp" name="third_place_per" type="number" class="form-control" placeholder="10%" />
         </div>
         <div class="mb-3">
             <input type="submit" value="Create Competition (Cost: 2 Points)" class="btn btn-primary" />
