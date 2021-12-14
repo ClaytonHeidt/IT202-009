@@ -29,7 +29,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
             flash("You can't afford this right now", "warning");
         }
     } else {
-        flash("Reward percentage has to add up to 100%", "warning");
+        flash("Reward percentage must add up to 100%", "warning");
     }
 }
 ?>
