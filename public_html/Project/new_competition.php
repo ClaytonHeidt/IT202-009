@@ -5,7 +5,7 @@ is_logged_in(true);
 if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $cost = (int)se($_POST, "starting_reward", 0, false);
     $cost++;
-    $cost += (int)se($_POST, "join_cost", 0, false);
+    $cost += (int)se($_POST, "join_fee", 0, false);
     $cost *= -1;
     echo '<script>';
     echo 'console.log(' . $cost . ')';
@@ -33,6 +33,8 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     } else {
         flash("You can't afford this right now", "warning");
     }
+} else {
+    flash("Please fill out all fields", "warning");
 }
 ?>
 
@@ -61,7 +63,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
         </div>
         <div class="mb-3">
             <label for="dur" class="form-label">Competition Duration (in Days)</label>
-            <input id="dur" name="duration" type="number" class="form-control" placeholder=">= 3" min="3" />
+            <input id="dur" name="duration" type="number" class="form-control" placeholder=">= 1" min="1" />
         </div>
         <div class="mb-3">
             <label for="fpp" class="form-label">Reward Percentage for 1st place (out of 100 %)</label>
@@ -76,7 +78,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
             <input id="tpp" name="third_place_per" type="number" class="form-control" placeholder="10 %" />
         </div>
         <div class="mb-3">
-            <input type="submit" value="Create Competition (Point Cost = 1 + Starting Reward)" class="btn btn-primary" />
+            <input type="submit" value="Create Competition" class="btn btn-primary" />
         </div>
     </form>
     <script>
