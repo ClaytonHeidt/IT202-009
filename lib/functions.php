@@ -467,7 +467,7 @@ function get_top_scores_for_comp($comp_id, $limit = 10)
     //Below if a user can't win more than one place
     $stmt = $db->prepare("SELECT * FROM (SELECT s.user_id, s.score, s.created, DENSE_RANK() OVER (PARTITION BY s.user_id ORDER BY s.score desc) as `rank` FROM Scores s
     JOIN CompetitionParticipants uc on uc.user_id = s.user_id
-    JOIN Competitions c on uc.competition_id = c.id
+    JOIN Competitions c on uc.comp_id = c.id
     /*JOIN BGD_Accounts a on a.user_id = s.user_id*/
     WHERE c.id = :cid AND s.created BETWEEN uc.created AND c.expires
     )as t where `rank` = 1 ORDER BY score desc LIMIT :limit");
@@ -533,11 +533,11 @@ function calc_winners()
                                 $atleastOne = true;
                                 elog("User $user_id First place in $title with score of $score");
                             } else if ($index == 1) {
-                                update_points($fpr, "Comp_2nd_Place");
+                                update_points($spr, "Comp_2nd_Place");
                                 $atleastOne = true;
                                 elog("User $user_id Second place in $title with score of $score");
                             } else if ($index == 2) {
-                                update_points($fpr, "Comp_3rd_Place");
+                                update_points($tpr, "Comp_3rd_Place");
                                 $atleastOne = true;
                                 elog("User $user_id Third place in $title with score of $score");
                             }
