@@ -492,7 +492,7 @@ function get_top_scores_for_comp($comp_id, $limit = 10)
  */
 function elog($data)
 {
-    echo "<br>" . var_export($data, true) . "<br>";
+    //echo "<br>" . var_export($data, true) . "<br>";
     error_log(var_export($data, true));
 }
 
