@@ -29,7 +29,7 @@ calc_winners();
     ?>
     <br><br>
 
-    <?php $duration = "day"; ?>
+    <?php $duration = "week"; ?>
     <?php require(__DIR__ . "/../../partials/score_table.php"); ?>
 </div>
 <?php

@@ -68,5 +68,3 @@ if (!isset($scores)) {
         </div>
     </div>
 </div>
-
-
