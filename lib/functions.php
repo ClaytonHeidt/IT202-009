@@ -513,7 +513,7 @@ function calc_winners()
                         foreach ($r as $index => $row) {
                             $score = se($row, "score", 0, false);
                             $user_id = se($row, "user_id", -1, false);
-                            flash("UserID: $user_id Score: $score", "info");
+                            //flash("UserID: $user_id Score: $score", "info");
                             if ($index == 0) {
                                 update_points($fpr, "Comp_1st_Place", $user_id);
                                 $atleastOne = true;
@@ -546,7 +546,7 @@ function calc_winners()
     }
 
     try {
-        $query = "UPDATE Competitions SET paid_out=1 WHERE id=$comp_id";
+        $query = "UPDATE Competitions SET paid_out=1 WHERE expires <= CURRENT_TIMESTAMP() AND paid_out != 1";
         $stmt = $db->prepare($query);
         $stmt->execute();
     } catch (PDOException $e) {
