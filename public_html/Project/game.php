@@ -1,5 +1,6 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+is_logged_in(true);
 ?>
 
 <div class="container-fluid">
@@ -50,12 +51,10 @@ require(__DIR__ . "/../../partials/nav.php");
   var up = false;
   var down = false;
   var space = false;
-  ////PART OF SIGNIFCANT CHANGE 1
   var right = false;
   var left = false;
 
   // Is a bullet already on the canvas?
-  //PART OF SIGNICANT CHANGE 2 - shooting in all directions
   var shootingN = false;
   var shootingS = false;
   var shootingE = false;
@@ -122,7 +121,7 @@ require(__DIR__ . "/../../partials/nav.php");
     context.fillStyle = '#000000';
     context.font = '36px Arial';
     context.textAlign = 'center';
-    context.fillText('Shoot \'Em!', canvas.width / 2, canvas.height / 4);
+    context.fillText('Star Shooter!', canvas.width / 2, canvas.height / 4);
     context.font = '24px Arial';
     context.fillText('Click to Start', canvas.width / 2, canvas.height / 2);
     context.font = '18px Arial';
@@ -271,7 +270,7 @@ require(__DIR__ . "/../../partials/nav.php");
     if (up) {
       ship.y -= ship.s;
     }
-    //SIGNIFCANT CHANGE 1 - player can now move left and right
+    //player can now move left and right
     if (right) {
       ship.x += ship.s;
     }
@@ -285,7 +284,7 @@ require(__DIR__ . "/../../partials/nav.php");
     if (ship.y > canvas.height - ship.l) {
       ship.y = canvas.height - ship.l;
     }
-    //PART OF SIGNIFCANT CHANGE 1 - adds boundaries
+    //adds boundaries on left and right
     if (ship.x < 0) {
       ship.x = 0;
     } 
@@ -297,7 +296,7 @@ require(__DIR__ . "/../../partials/nav.php");
     context.fillStyle = '#FF0000';
     ship.draw();
     // Move and draw the bullet
-    //SIGNIFICANT CHANGE 2 - shooting bullets on one side wont stop the other bullets
+    //Shooting bullets on one side wont stop the other bullets
     if (shootingN || shootingS || shootingE || shootingW) {
       // Move the bullet
       bulletN.y -= bulletN.s;

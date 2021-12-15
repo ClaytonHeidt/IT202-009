@@ -1,5 +1,7 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+is_logged_in(true);
+calc_winners();
 ?>
 
 <div class="container-fluid">
@@ -27,7 +29,7 @@ require(__DIR__ . "/../../partials/nav.php");
     ?>
     <br><br>
 
-    <?php $duration = "day"; ?>
+    <?php $duration = "week"; ?>
     <?php require(__DIR__ . "/../../partials/score_table.php"); ?>
 </div>
 <?php
