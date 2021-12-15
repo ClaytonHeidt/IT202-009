@@ -44,7 +44,7 @@ require_once(__DIR__ . "/../lib/functions.php");
                         <a class="nav-link dropdown-toggle" href="#" id="competitionsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Competitions</a>
                         <ul class="dropdown-menu bg-warning" aria-labelledby="competitionsDropdown">
                             <li><a class="dropdown-item" href="<?php echo get_url('new_competition.php'); ?>">New Competition</a></li>
-                            <li><a class="dropdown-item" href="<?php echo get_url('list_competition.php'); ?>">List Competitions</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('active_competitions.php'); ?>">Active Competitions</a></li>
                         </ul>
                     </li>
                     

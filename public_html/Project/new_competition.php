@@ -10,12 +10,12 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
 
     $cost = (int)se($_POST, "starting_reward", 0, false);
     $cost++;
-    $cost *= -1;
 
     $name = se($_POST, "name", "N/A", false);
     $points = get_user_points();
     if ($total == 100) {
         if ($points >= $cost) {
+            $cost *= -1;
             update_points($cost, "created_comp");
             $comp_id = save_data("Competitions", $_POST);
             if ($comp_id > 0) {
@@ -29,7 +29,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
             flash("You can't afford this right now", "warning");
         }
     } else {
-        flash("Reward percentage has to add up to 100%", "warning");
+        flash("Reward percentage must add up to 100%", "warning");
     }
 }
 ?>
