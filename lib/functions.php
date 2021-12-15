@@ -245,9 +245,8 @@ function get_user_role()
     return $role;
 }
 
-function update_points($pointChange, $reason)
+function update_points($pointChange, $reason, $user_id)
 {
-    $user_id = get_user_id();
     $showFlash = false;
     $db = getDB();
     $stmt = $db->prepare("SELECT points FROM Users WHERE id=$user_id");
@@ -255,7 +254,7 @@ function update_points($pointChange, $reason)
     $points = $stmt->fetchColumn();
     $pointSum = $points + $pointChange;
 
-    flash("Point sum: $pointChange", "info");
+    //flash("Point sum: $pointChange", "info");
 
     $stmt = $db->prepare("INSERT INTO PointsHistory (point_change, user_id, reason) VALUES (:pchange, :uid, :r)");
     try {
@@ -379,7 +378,7 @@ function join_competition($comp_id, $user_id, $cost)
                     $cost = (int)se($r, "join_fee", 0, false);
                     $name = se($r, "name", "", false);
                     if ($points >= $cost) {
-                        update_points($cost, "joined_comp");
+                        update_points($cost, "joined_comp", $user_id);
                         if (add_to_competition($comp_id, $user_id)) {
                             flash("Successfully joined $name", "success");
                         }
@@ -523,7 +522,7 @@ function calc_winners()
                 $tpr = ceil($reward * $tp);
                 $comp_id = se($row, "id", -1, false);
                 
-                flash("First: $fpr Second: $spr Third: $tpr", "info");
+                //flash("First: $fpr Second: $spr Third: $tpr", "info");
 
                 try {
                     $r = get_top_scores_for_comp($comp_id, 3);
@@ -533,16 +532,17 @@ function calc_winners()
                             //$aid = se($row, "account_id", -1, false);
                             $score = se($row, "score", 0, false);
                             $user_id = se($row, "user_id", -1, false);
+                            flash("UserID: $user_id Score: $score", "info");
                             if ($index == 0) {
-                                update_points($fpr, "Comp_1st_Place");
+                                update_points($fpr, "Comp_1st_Place", $user_id);
                                 $atleastOne = true;
                                 elog("User $user_id First place in $title with score of $score");
                             } else if ($index == 1) {
-                                update_points($spr, "Comp_2nd_Place");
+                                update_points($spr, "Comp_2nd_Place", $user_id);
                                 $atleastOne = true;
                                 elog("User $user_id Second place in $title with score of $score");
                             } else if ($index == 2) {
-                                update_points($tpr, "Comp_3rd_Place");
+                                update_points($tpr, "Comp_3rd_Place", $user_id);
                                 $atleastOne = true;
                                 elog("User $user_id Third place in $title with score of $score");
                             }
@@ -563,7 +563,7 @@ function calc_winners()
     } catch (PDOException $e) {
         error_log("Getting Expired Comps error: " . var_export($e, true));
     }
-    
+
     try {
         $query = "UPDATE Competitions SET paid_out=1 WHERE id=$comp_id";
         $stmt = $db->prepare($query);
