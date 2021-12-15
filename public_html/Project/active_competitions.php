@@ -12,7 +12,7 @@ if (isset($_POST["join"])) {
 }
 $per_page = 10;
 
-paginate("SELECT count(1) as total FROM Competitions WHERE expires > current_timestamp() AND did_payout < 1 AND did_calc < 1");
+paginate("SELECT count(1) as total FROM Competitions WHERE expires > current_timestamp() AND did_payout < 1");
 //handle page load
 //TODO fix join
 $stmt = $db->prepare("SELECT Competitions.id, name, min_participants, current_participants, current_reward, expires, min_score, join_fee, IF(competition_id is null, 0, 1) as joined,  CONCAT(first_place_per,'% - ', second_place_per, '% - ', third_place_per, '%') as place FROM Competitions
