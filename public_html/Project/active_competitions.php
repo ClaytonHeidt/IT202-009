@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__ . "/../../partials/nav.php");
 is_logged_in(true);
-//calc_winners();
+calc_winners();
 $db = getDB();
 //handle join
 if (isset($_POST["join"])) {
@@ -15,13 +15,8 @@ $per_page = 10;
 
 paginate("SELECT count(1) as total FROM Competitions WHERE expires > current_timestamp() AND paid_out < 1");
 //handle page load
-//TODO fix join
 $stmt = $db->prepare("SELECT Competitions.id, name, min_participants, current_participants, current_reward, expires, min_score, join_fee, IF(comp_id is null, 0, 1) as joined, CONCAT(first_place_per,'% - ', second_place_per, '% - ', third_place_per, '%') as place FROM Competitions
-/*JOIN BGD_Payout_Options on BGD_Payout_Options.id = BGD_Competitions.payout_option*/
 LEFT JOIN (SELECT * FROM CompetitionParticipants WHERE user_id = :uid) as uc ON uc.comp_id = Competitions.id WHERE expires > current_timestamp() AND paid_out < 1 ORDER BY expires");
-/*$stmt = $db->prepare("SELECT BGD_Competitions.id, title, min_participants, current_participants, current_reward, expires, creator_id, min_score, join_cost, IF(competition_id is null, 0, 1) as joined,  CONCAT(first_place,'% - ', second_place, '% - ', third_place, '%') as place FROM BGD_Competitions
-JOIN BGD_Payout_Options on BGD_Payout_Options.id = BGD_Competitions.payout_option
-LEFT JOIN BGD_UserComps on BGD_UserComps.competition_id = BGD_Competitions.id WHERE user_id = :uid AND expires > current_timestamp() AND paid_out < 1 AND did_calc < 1 ORDER BY expires desc");*/
 
 $results = [];
 try {

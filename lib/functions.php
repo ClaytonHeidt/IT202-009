@@ -9,8 +9,6 @@ function se($v, $k = null, $default = "", $isEcho = true)
         $returnValue = $v->$k;
     } else {
         $returnValue = $v;
-        //added 07-05-2021 to fix case where $k of $v isn't set
-        //this is to kep htmlspecialchars happy
         if (is_array($returnValue) || is_object($returnValue)) {
             $returnValue = $default;
         }
@@ -26,7 +24,7 @@ function se($v, $k = null, $default = "", $isEcho = true)
         return htmlspecialchars($returnValue, ENT_QUOTES);
     }
 }
-//TODO 2: filter helpers
+//filter helpers
 function sanitize_email($email = "")
 {
     return filter_var(trim($email), FILTER_SANITIZE_EMAIL);
@@ -35,7 +33,7 @@ function is_valid_email($email = "")
 {
     return filter_var(trim($email), FILTER_VALIDATE_EMAIL);
 }
-//TODO 3: User Helpers
+//User Helpers
 function is_logged_in($redirect = false, $destination = "login.php")
 {
     $isLoggedIn = isset($_SESSION["user"]);
@@ -77,7 +75,7 @@ function get_user_id()
     }
     return false;
 }
-//TODO 4: Flash Message Helpers
+//Flash Message Helpers
 function flash($msg = "", $color = "info")
 {
     $message = ["text" => $msg, "color" => $color];
@@ -98,7 +96,7 @@ function getMessages()
     }
     return array();
 }
-//TODO generic helpers
+//generic helpers
 function reset_session()
 {
     session_unset();
@@ -112,11 +110,11 @@ function users_check_duplicate($errorInfo)
         if (isset($matches[1])) {
             flash("The chosen " . $matches[1] . " is not available.", "warning");
         } else {
-            //TODO come up with a nice error message
+            //Nice error message
             flash("<pre>" . var_export($errorInfo, true) . "</pre>");
         }
     } else {
-        //TODO come up with a nice error message
+        //Nice error message
         flash("<pre>" . var_export($errorInfo, true) . "</pre>");
     }
 }
@@ -254,8 +252,6 @@ function update_points($pointChange, $reason, $user_id)
     $points = $stmt->fetchColumn();
     $pointSum = $points + $pointChange;
 
-    //flash("Point sum: $pointChange", "info");
-
     $stmt = $db->prepare("INSERT INTO PointsHistory (point_change, user_id, reason) VALUES (:pchange, :uid, :r)");
     try {
         $stmt->execute([":pchange" => $pointChange, ":uid" => $user_id, ":r" => $reason]);
@@ -382,9 +378,6 @@ function join_competition($comp_id, $user_id, $cost)
                         if (add_to_competition($comp_id, $user_id)) {
                             flash("Successfully joined $name", "success");
                         }
-                        //} //else {
-                            //flash("Failed to pay for competition", "danger");
-                        //}
                     } else {
                         flash("You can't afford to join this competition", "warning");
                     }
@@ -457,19 +450,10 @@ function redirect($path)
 function get_top_scores_for_comp($comp_id, $limit = 10)
 {
     $db = getDB();
-    //below if a user can win more than one place
-    /*$stmt = $db->prepare(
-        "SELECT score, s.created, username, u.id as user_id FROM BGD_Scores s 
-    JOIN BGD_UserComps uc on uc.user_id = s.user_id 
-    JOIN BGD_Competitions c on c.id = uc.competition_id
-    JOIN Users u on u.id = s.user_id WHERE c.id = :cid AND s.score >= c.min_score AND s.created 
-    BETWEEN uc.created AND c.expires ORDER BY s.score desc LIMIT :limit"
-    );*/
     //Below if a user can't win more than one place
     $stmt = $db->prepare("SELECT * FROM (SELECT s.user_id, s.score, s.created, DENSE_RANK() OVER (PARTITION BY s.user_id ORDER BY s.score desc) as `rank` FROM Scores s
     JOIN CompetitionParticipants uc on uc.user_id = s.user_id
     JOIN Competitions c on uc.comp_id = c.id
-    /*JOIN BGD_Accounts a on a.user_id = s.user_id*/
     WHERE c.id = :cid AND s.created BETWEEN uc.created AND c.expires
     )as t where `rank` = 1 ORDER BY score desc LIMIT :limit");
     $scores = [];
@@ -522,14 +506,11 @@ function calc_winners()
                 $tpr = ceil($reward * $tp);
                 $comp_id = se($row, "id", -1, false);
                 
-                //flash("First: $fpr Second: $spr Third: $tpr", "info");
-
                 try {
                     $r = get_top_scores_for_comp($comp_id, 3);
                     if ($r) {
                         $atleastOne = false;
                         foreach ($r as $index => $row) {
-                            //$aid = se($row, "account_id", -1, false);
                             $score = se($row, "score", 0, false);
                             $user_id = se($row, "user_id", -1, false);
                             flash("UserID: $user_id Score: $score", "info");
@@ -571,31 +552,4 @@ function calc_winners()
     } catch (PDOException $e) {
         error_log("Error: " . var_export($e, true));
     }
-
-    //closing calced comps
-    /*if (count($calced_comps) > 0) {
-        $query = "UPDATE Competitions set paid_out = 1 WHERE id in ";
-        $query = "(" . str_repeat("?,", count($calced_comps) - 1) . "?)";
-        elog("Close query: $query");
-        $stmt = $db->prepare($query);
-        try {
-            $stmt->execute($calced_comps);
-            $updated = $stmt->rowCount();
-            elog("Marked $updated comps complete and calced");
-        } catch (PDOException $e) {
-            error_log("Closing valid comps error: " . var_export($e, true));
-        }
-    } else {
-        elog("No competitions to calc");
-    }
-    //close invalid comps
-    $stmt = $db->prepare("UPDATE Competitions set paid_out = 1 WHERE expires <= CURRENT_TIMESTAMP() AND current_participants < min_participants");
-    try {
-        $stmt->execute();
-        $rows = $stmt->rowCount();
-        elog("Closed $rows invalid competitions");
-    } catch (PDOException $e) {
-        error_log("Closing invalid comps error: " . var_export($e, true));
-    }
-    elog("Done calc winners");*/
 }

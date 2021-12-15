@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__ . "/../../partials/nav.php");
 is_logged_in(true);
-//calc_winners();
+calc_winners();
 $db = getDB();
 //handle join
 if (isset($_POST["join"])) {
@@ -16,10 +16,6 @@ if ($id < 1) {
     redirect("active_competitions.php");
 }
 //handle page load
-/*$stmt = $db->prepare("SELECT BGD_Competitions.id , title, min_participants, current_participants, current_reward, expires, creator_id, min_score, join_cost, IF(competition_id is null, 0, 1) as joined,  CONCAT(first_place,'% - ', second_place, '% - ', third_place, '%') as place FROM BGD_Competitions
-JOIN BGD_Payout_Options on BGD_Payout_Options.id = BGD_Competitions.payout_option
-LEFT JOIN (SELECT * FROM BGD_UserComps where BGD_UserComps.user_id = :uid) as t on t.competition_id = BGD_Competitions.id WHERE BGD_Competitions.id = :cid");*/
-
 $stmt = $db->prepare("SELECT Competitions.id, name, min_participants, current_participants, current_reward, expires, min_score, join_fee, IF(comp_id is null, 0, 1) as joined, CONCAT(first_place_per,'% - ', second_place_per, '% - ', third_place_per, '%') as place FROM Competitions
 LEFT JOIN (SELECT * FROM CompetitionParticipants WHERE CompetitionParticipants.user_id = :uid) as t ON t.comp_id = Competitions.id WHERE Competitions.id = :cid");
 
