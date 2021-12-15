@@ -8,11 +8,11 @@ if (isset($_POST["join"])) {
     $comp_id = se($_POST, "comp_id", 0, false);
     $cost = se($_POST, "join_fee", 0, false);
     $points = get_user_points();
-    //join_competition($comp_id, $user_id, $cost);
+    join_competition($comp_id, $user_id, $cost);
 }
-$per_page = 5;
-/*
-paginate("SELECT count(1) as total FROM BGD_Competitions WHERE expires > current_timestamp() AND did_payout < 1 AND did_calc < 1");
+$per_page = 10;
+
+/*paginate("SELECT count(1) as total FROM BGD_Competitions WHERE expires > current_timestamp() AND did_payout < 1 AND did_calc < 1");
 //handle page load
 //TODO fix join
 $stmt = $db->prepare("SELECT BGD_Competitions.id, title, min_participants, current_participants, current_reward, expires, creator_id, min_score, join_cost, IF(competition_id is null, 0, 1) as joined,  CONCAT(first_place,'% - ', second_place, '% - ', third_place, '%') as place FROM BGD_Competitions
