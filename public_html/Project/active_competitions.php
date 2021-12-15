@@ -1,7 +1,7 @@
 <?php
 require_once(__DIR__ . "/../../partials/nav.php");
 is_logged_in(true);
-calc_winners();
+//calc_winners();
 $db = getDB();
 //handle join
 if (isset($_POST["join"])) {

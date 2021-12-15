@@ -255,6 +255,8 @@ function update_points($pointChange, $reason)
     $points = $stmt->fetchColumn();
     $pointSum = $points + $pointChange;
 
+    flash("Point sum: $pointChange", "info");
+
     $stmt = $db->prepare("INSERT INTO PointsHistory (point_change, user_id, reason) VALUES (:pchange, :uid, :r)");
     try {
         $stmt->execute([":pchange" => $pointChange, ":uid" => $user_id, ":r" => $reason]);
@@ -501,7 +503,7 @@ function calc_winners()
     $db = getDB();
     elog("Starting winner calc");
     $calced_comps = [];
-    $stmt = $db->prepare("select c.id, c.name, first_place_per, second_place_per, third_place_per, current_reward from Competitions c 
+    $stmt = $db->prepare("SELECT c.id, c.name, first_place_per, second_place_per, third_place_per, current_reward FROM Competitions c 
     where expires <= CURRENT_TIMESTAMP() AND current_participants >= min_participants LIMIT 10");
     try {
         $stmt->execute();
@@ -513,6 +515,7 @@ function calc_winners()
                 $fp = floatval(se($row, "first_place_per", 0, false) / 100);
                 $sp = floatval(se($row, "second_place_per", 0, false) / 100);
                 $tp = floatval(se($row, "third_place_per", 0, false) / 100);
+
                 $reward = (int)se($row, "current_reward", 0, false);
                 $title = se($row, "name", "-", false);
                 $fpr = ceil($reward * $fp);
@@ -520,6 +523,8 @@ function calc_winners()
                 $tpr = ceil($reward * $tp);
                 $comp_id = se($row, "id", -1, false);
                 
+                flash("First: $fpr Second: $spr Third: $tpr", "info");
+
                 try {
                     $r = get_top_scores_for_comp($comp_id, 3);
                     if ($r) {
@@ -558,8 +563,12 @@ function calc_winners()
     } catch (PDOException $e) {
         error_log("Getting Expired Comps error: " . var_export($e, true));
     }
+
+    $query = "UPDATE Competitions SET paid_out=1 WHERE id=$comp_id";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
     //closing calced comps
-    if (count($calced_comps) > 0) {
+    /*if (count($calced_comps) > 0) {
         $query = "UPDATE Competitions set paid_out = 1 WHERE id in ";
         $query = "(" . str_repeat("?,", count($calced_comps) - 1) . "?)";
         elog("Close query: $query");
@@ -575,13 +584,13 @@ function calc_winners()
         elog("No competitions to calc");
     }
     //close invalid comps
-    /*$stmt = $db->prepare("UPDATE Competitions set did_calc = 1 WHERE expires <= CURRENT_TIMESTAMP() AND current_participants < min_participants AND did_calc = 0");
+    $stmt = $db->prepare("UPDATE Competitions set paid_out = 1 WHERE expires <= CURRENT_TIMESTAMP() AND current_participants < min_participants");
     try {
         $stmt->execute();
         $rows = $stmt->rowCount();
         elog("Closed $rows invalid competitions");
     } catch (PDOException $e) {
         error_log("Closing invalid comps error: " . var_export($e, true));
-    }*/
-    elog("Done calc winners");
+    }
+    elog("Done calc winners");*/
 }
