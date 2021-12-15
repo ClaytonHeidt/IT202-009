@@ -504,7 +504,7 @@ function calc_winners()
     elog("Starting winner calc");
     $calced_comps = [];
     $stmt = $db->prepare("SELECT c.id, c.name, first_place_per, second_place_per, third_place_per, current_reward FROM Competitions c 
-    where expires <= CURRENT_TIMESTAMP() AND current_participants >= min_participants LIMIT 10");
+    where expires <= CURRENT_TIMESTAMP() AND current_participants >= min_participants AND paid_out != 1 LIMIT 10");
     try {
         $stmt->execute();
         $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -563,10 +563,15 @@ function calc_winners()
     } catch (PDOException $e) {
         error_log("Getting Expired Comps error: " . var_export($e, true));
     }
+    
+    try {
+        $query = "UPDATE Competitions SET paid_out=1 WHERE id=$comp_id";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        error_log("Error: " . var_export($e, true));
+    }
 
-    $query = "UPDATE Competitions SET paid_out=1 WHERE id=$comp_id";
-    $stmt = $db->prepare($query);
-    $stmt->execute();
     //closing calced comps
     /*if (count($calced_comps) > 0) {
         $query = "UPDATE Competitions set paid_out = 1 WHERE id in ";
