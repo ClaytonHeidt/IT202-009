@@ -374,16 +374,16 @@ function join_competition($comp_id, $user_id, $cost)
                 $stmt->execute([":id" => $comp_id]);
                 $r = $stmt->fetch(PDO::FETCH_ASSOC);
                 if ($r) {
-                    $cost = (int)se($r, "join_cost", 0, false);
-                    $name = se($r, "title", "", false);
+                    $cost = (int)se($r, "join_fee", 0, false);
+                    $name = se($r, "name", "", false);
                     if ($points >= $cost) {
-                        if (update_points($cost, "joined_comp")) {
-                            if (add_to_competition($comp_id, $user_id)) {
-                                flash("Successfully joined $name", "success");
-                            }
-                        } else {
-                            flash("Failed to pay for competition", "danger");
+                        update_points($cost, "joined_comp");
+                        if (add_to_competition($comp_id, $user_id)) {
+                            flash("Successfully joined $name", "success");
                         }
+                        //} //else {
+                            //flash("Failed to pay for competition", "danger");
+                        //}
                     } else {
                         flash("You can't afford to join this competition", "warning");
                     }

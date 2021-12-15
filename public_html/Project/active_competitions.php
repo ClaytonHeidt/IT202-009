@@ -38,7 +38,7 @@ try {
     <h1>Active Competitions</h1>
     <table class="table text-light">
         <thead>
-            <th>name</th>
+            <th>Competition Name</th>
             <th>Participants</th>
             <th>Reward</th>
             <th>Minimum Score</th>
