@@ -11,12 +11,13 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $cost = (int)se($_POST, "starting_reward", 0, false);
     $cost++;
 
+    $user_id = get_user_id();
     $name = se($_POST, "name", "N/A", false);
     $points = get_user_points();
     if ($total == 100) {
         if ($points >= $cost) {
             $cost *= -1;
-            update_points($cost, "created_comp");
+            update_points($cost, "created_comp", $user_id);
             $comp_id = save_data("Competitions", $_POST);
             if ($comp_id > 0) {
                 if (add_to_competition($comp_id, get_user_id())) {

@@ -31,7 +31,7 @@ if (isset($data["score"])) {
             error_log("$updatePoints points have been added for $user_id");
             $reason = "Won locally";
             error_log("Reason: $reason");
-            update_points($updatePoints, $reason);
+            update_points($updatePoints, $reason, $user_id);
         }
     } else {
         $response["message"] = "AntiCheat Detection Triggered. Score rejected.";

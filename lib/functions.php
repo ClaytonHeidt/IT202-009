@@ -9,8 +9,6 @@ function se($v, $k = null, $default = "", $isEcho = true)
         $returnValue = $v->$k;
     } else {
         $returnValue = $v;
-        //added 07-05-2021 to fix case where $k of $v isn't set
-        //this is to kep htmlspecialchars happy
         if (is_array($returnValue) || is_object($returnValue)) {
             $returnValue = $default;
         }
@@ -26,7 +24,7 @@ function se($v, $k = null, $default = "", $isEcho = true)
         return htmlspecialchars($returnValue, ENT_QUOTES);
     }
 }
-//TODO 2: filter helpers
+//filter helpers
 function sanitize_email($email = "")
 {
     return filter_var(trim($email), FILTER_SANITIZE_EMAIL);
@@ -35,7 +33,7 @@ function is_valid_email($email = "")
 {
     return filter_var(trim($email), FILTER_VALIDATE_EMAIL);
 }
-//TODO 3: User Helpers
+//User Helpers
 function is_logged_in($redirect = false, $destination = "login.php")
 {
     $isLoggedIn = isset($_SESSION["user"]);
@@ -77,7 +75,7 @@ function get_user_id()
     }
     return false;
 }
-//TODO 4: Flash Message Helpers
+//Flash Message Helpers
 function flash($msg = "", $color = "info")
 {
     $message = ["text" => $msg, "color" => $color];
@@ -98,7 +96,7 @@ function getMessages()
     }
     return array();
 }
-//TODO generic helpers
+//generic helpers
 function reset_session()
 {
     session_unset();
@@ -112,11 +110,11 @@ function users_check_duplicate($errorInfo)
         if (isset($matches[1])) {
             flash("The chosen " . $matches[1] . " is not available.", "warning");
         } else {
-            //TODO come up with a nice error message
+            //Nice error message
             flash("<pre>" . var_export($errorInfo, true) . "</pre>");
         }
     } else {
-        //TODO come up with a nice error message
+        //Nice error message
         flash("<pre>" . var_export($errorInfo, true) . "</pre>");
     }
 }
@@ -245,9 +243,8 @@ function get_user_role()
     return $role;
 }
 
-function update_points($pointChange, $reason)
+function update_points($pointChange, $reason, $user_id)
 {
-    $user_id = get_user_id();
     $showFlash = false;
     $db = getDB();
     $stmt = $db->prepare("SELECT points FROM Users WHERE id=$user_id");
@@ -377,13 +374,10 @@ function join_competition($comp_id, $user_id, $cost)
                     $cost = (int)se($r, "join_fee", 0, false);
                     $name = se($r, "name", "", false);
                     if ($points >= $cost) {
-                        update_points($cost, "joined_comp");
+                        update_points($cost, "joined_comp", $user_id);
                         if (add_to_competition($comp_id, $user_id)) {
                             flash("Successfully joined $name", "success");
                         }
-                        //} //else {
-                            //flash("Failed to pay for competition", "danger");
-                        //}
                     } else {
                         flash("You can't afford to join this competition", "warning");
                     }
@@ -436,4 +430,126 @@ function persistQueryString($page)
 {
     $_GET["page"] = $page;
     return http_build_query($_GET);
+}
+
+function redirect($path)
+{ //header headache
+    //https://www.php.net/manual/en/function.headers-sent.php#90160
+    /*headers are sent at the end of script execution otherwise they are sent when the buffer reaches it's limit and emptied */
+    if (!headers_sent()) {
+        //php redirect
+        die(header("Location: " . get_url($path)));
+    }
+    //javascript redirect
+    echo "<script>window.location.href='" . get_url($path) . "';</script>";
+    //metadata redirect (runs if javascript is disabled)
+    echo "<noscript><meta http-equiv=\"refresh\" content=\"0;url=" . get_url($path) . "\"/></noscript>";
+    die();
+}
+
+function get_top_scores_for_comp($comp_id, $limit = 10)
+{
+    $db = getDB();
+    //Below if a user can't win more than one place
+    $stmt = $db->prepare("SELECT * FROM (SELECT s.user_id, s.score, s.created, DENSE_RANK() OVER (PARTITION BY s.user_id ORDER BY s.score desc) as `rank` FROM Scores s
+    JOIN CompetitionParticipants uc on uc.user_id = s.user_id
+    JOIN Competitions c on uc.comp_id = c.id
+    WHERE c.id = :cid AND s.created BETWEEN uc.created AND c.expires
+    )as t where `rank` = 1 ORDER BY score desc LIMIT :limit");
+    $scores = [];
+    try {
+        $stmt->bindValue(":cid", $comp_id, PDO::PARAM_INT);
+        $stmt->bindValue(":limit", $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($r) {
+            $scores = $r;
+        }
+    } catch (PDOException $e) {
+        flash("There was a problem fetching scores, please try again later", "danger");
+        error_log("List competition scores error: " . var_export($e, true));
+    }
+    return $scores;
+}
+
+/***
+ * Helper for tracking to echo and error_log()
+ */
+function elog($data)
+{
+    //echo "<br>" . var_export($data, true) . "<br>";
+    error_log(var_export($data, true));
+}
+
+function calc_winners()
+{
+    $db = getDB();
+    elog("Starting winner calc");
+    $calced_comps = [];
+    $stmt = $db->prepare("SELECT c.id, c.name, first_place_per, second_place_per, third_place_per, current_reward FROM Competitions c 
+    where expires <= CURRENT_TIMESTAMP() AND current_participants >= min_participants AND paid_out != 1 LIMIT 10");
+    try {
+        $stmt->execute();
+        $r = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        if ($r) {
+            $rc = $stmt->rowCount();
+            elog("Validating $rc comps");
+            foreach ($r as $row) {
+                $fp = floatval(se($row, "first_place_per", 0, false) / 100);
+                $sp = floatval(se($row, "second_place_per", 0, false) / 100);
+                $tp = floatval(se($row, "third_place_per", 0, false) / 100);
+
+                $reward = (int)se($row, "current_reward", 0, false);
+                $title = se($row, "name", "-", false);
+                $fpr = ceil($reward * $fp);
+                $spr = ceil($reward * $sp);
+                $tpr = ceil($reward * $tp);
+                $comp_id = se($row, "id", -1, false);
+                
+                try {
+                    $r = get_top_scores_for_comp($comp_id, 3);
+                    if ($r) {
+                        $atleastOne = false;
+                        foreach ($r as $index => $row) {
+                            $score = se($row, "score", 0, false);
+                            $user_id = se($row, "user_id", -1, false);
+                            flash("UserID: $user_id Score: $score", "info");
+                            if ($index == 0) {
+                                update_points($fpr, "Comp_1st_Place", $user_id);
+                                $atleastOne = true;
+                                elog("User $user_id First place in $title with score of $score");
+                            } else if ($index == 1) {
+                                update_points($spr, "Comp_2nd_Place", $user_id);
+                                $atleastOne = true;
+                                elog("User $user_id Second place in $title with score of $score");
+                            } else if ($index == 2) {
+                                update_points($tpr, "Comp_3rd_Place", $user_id);
+                                $atleastOne = true;
+                                elog("User $user_id Third place in $title with score of $score");
+                            }
+                        }
+                        if ($atleastOne) {
+                            array_push($calced_comps, $comp_id);
+                        }
+                    } else {
+                        elog("No eligible scores");
+                    }
+                } catch (PDOException $e) {
+                    error_log("Getting winners error: " . var_export($e, true));
+                }
+            }
+        } else {
+            elog("No competitions ready");
+        }
+    } catch (PDOException $e) {
+        error_log("Getting Expired Comps error: " . var_export($e, true));
+    }
+
+    try {
+        $query = "UPDATE Competitions SET paid_out=1 WHERE id=$comp_id";
+        $stmt = $db->prepare($query);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        error_log("Error: " . var_export($e, true));
+    }
 }
