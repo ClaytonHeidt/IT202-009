@@ -28,6 +28,6 @@ nav li a {
 }
 
 body {
-    background-color: gray;
-    color: darkred;
+    background-color: rgb(50, 50, 50);
+    color: rgb(255, 183, 0);
 }

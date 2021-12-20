@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../../partials/nav.php");
+require_once(__DIR__ . "/../../../partials/nav.php");
 is_logged_in(true);
 calc_winners();
 $db = getDB();
@@ -32,6 +32,9 @@ try {
     error_log("List competitions error: " . var_export($e, true));
 }
 ?>
+
+<head><link rel="stylesheet" href="/Project/styles.css"></head>
+
 <div class="container-fluid">
     <h1>Active Competitions</h1>
     <table class="table text-light">
@@ -73,8 +76,8 @@ try {
             <?php endif; ?>
         </tbody>
     </table>
-    <?php include(__DIR__ . "/../../partials/pagination.php"); ?>
+    <?php include(__DIR__ . "/../../../partials/pagination.php"); ?>
 </div>
 <?php
-require(__DIR__ . "/../../partials/flash.php");
+require_once(__DIR__ . "/../../../partials/flash.php");
 ?>
