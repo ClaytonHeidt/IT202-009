@@ -56,7 +56,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $min_score = se($_POST, "min_score", "N/A", false);
     $min_participants = se($_POST, "min_participants", "N/A", false);
     $join_fee = se($_POST, "join_fee", "N/A", false);
-    $duration = se($r, "duration", "N/A", false);
+    $duration = se($_POST, "duration", "N/A", false);
     $first_place_per = se($_POST, "first_place_per", "N/A", false);
     $second_place_per = se($_POST, "second_place_per", "N/A", false);
     $third_place_per = se($_POST, "third_place_per", "N/A", false);

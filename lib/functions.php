@@ -364,9 +364,10 @@ function edit_competition($compid, $compname, $starting_reward, $min_score, $min
 $join_fee, $duration, $first_place_per, $second_place_per, $third_place_per)
 {
     $db = getDB();
-    $query = "UPDATE Competitions SET name = :cn, starting_reward = $starting_reward, min_score = $min_score,
+    $query = "UPDATE Competitions SET name = :cn, starting_reward = $starting_reward, 
+    current_reward = CEILING(starting_reward * POWER(1.5, current_participants)), min_score = $min_score,
     min_participants = $min_participants, join_fee = $join_fee, duration = $duration, first_place_per = $first_place_per,
-    second_place_per = $second_place_per, third_place_per = $third_place_per WHERE id = $compid";
+    second_place_per = $second_place_per, third_place_per = $third_place_per, expires = DATE_ADD(created, INTERVAL $duration DAY) WHERE id = $compid";
     $stmt = $db->prepare($query);
 
     try {
