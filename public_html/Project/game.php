@@ -1,5 +1,6 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+is_logged_in(true);
 ?>
 
 <div class="container-fluid">
@@ -23,7 +24,7 @@ require(__DIR__ . "/../../partials/nav.php");
 
 <script>
 
-  // Arcade Shooter game
+  // Star Shooter
 
   // Get a reference to the canvas DOM element
   var canvas = document.getElementById('canvas');
@@ -50,12 +51,10 @@ require(__DIR__ . "/../../partials/nav.php");
   var up = false;
   var down = false;
   var space = false;
-  ////PART OF SIGNIFCANT CHANGE 1
   var right = false;
   var left = false;
 
   // Is a bullet already on the canvas?
-  //PART OF SIGNICANT CHANGE 2 - shooting in all directions
   var shootingN = false;
   var shootingS = false;
   var shootingE = false;
@@ -103,8 +102,14 @@ require(__DIR__ . "/../../partials/nav.php");
       sessionData: []
     }
 
-  // Track the user's score    
+  // Track the user's score   
   var score = 0;
+
+  //Points awarded to the user
+  var points;
+  //Why points were awarded to user
+  var reason;
+
   // The delay between enemies (in milliseconds)
   var timeBetweenEnemies = 5 * 1000;
   // ID to track the spawn timeout
@@ -116,7 +121,7 @@ require(__DIR__ . "/../../partials/nav.php");
     context.fillStyle = '#000000';
     context.font = '36px Arial';
     context.textAlign = 'center';
-    context.fillText('Shoot \'Em!', canvas.width / 2, canvas.height / 4);
+    context.fillText('Star Shooter!', canvas.width / 2, canvas.height / 4);
     context.font = '24px Arial';
     context.fillText('Click to Start', canvas.width / 2, canvas.height / 2);
     context.font = '18px Arial';
@@ -152,43 +157,21 @@ require(__DIR__ . "/../../partials/nav.php");
     
 
     if (score > 0) {
-            //TODO save examples
-                //original way
-                /*let http = new XMLHttpRequest();
-                http.onreadystatechange = () => {
-                    if (http.readyState == 4) {
-                        if (http.status === 200) {
-                            let data = JSON.parse(http.responseText);
-                            console.log("received data", data);
-                            console.log("Saved score");
-                        }
-                        window.location.reload(); //lazily reloading the page to get a new nonce for next game
-                    }
-                }
-                http.open("POST", "api/save_score.php", true);
-                */
-                let http = new XMLHttpRequest();
-                http.onreadystatechange = () => {
-                    if (http.readyState == 4) {
-                        if (http.status === 200) {
-                            let data = JSON.parse(http.responseText);
-                            console.log("received data", data);
-                            flash(data.message, "success");
-                        }
-                        console.log(http);
-                    }
-                }
-                http.open("POST", "api/save_score.php", true);
-
-                //Convert a simple object to query params
-                /*
-                http.setRequestHeader('Content-Type', 'application/json');
-                http.send(JSON.stringify({
-                    "data": data
-                }));*/
-                http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-                http.send(`score=${score}`);
-        }
+      let http = new XMLHttpRequest();
+      http.onreadystatechange = () => {
+          if (http.readyState == 4) {
+              if (http.status === 200) {
+                  let data = JSON.parse(http.responseText);
+                  console.log("received data", data);
+                  flash(data.message, "success");
+              }
+              console.log(http);
+          }
+      }
+      http.open("POST", "api/save_score.php", true);
+      http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      http.send(`score=${score}`);
+    }
   }
 
   // Listen for keydown events
@@ -287,7 +270,7 @@ require(__DIR__ . "/../../partials/nav.php");
     if (up) {
       ship.y -= ship.s;
     }
-    //SIGNIFCANT CHANGE 1 - player can now move left and right
+    //player can now move left and right
     if (right) {
       ship.x += ship.s;
     }
@@ -301,7 +284,7 @@ require(__DIR__ . "/../../partials/nav.php");
     if (ship.y > canvas.height - ship.l) {
       ship.y = canvas.height - ship.l;
     }
-    //PART OF SIGNIFCANT CHANGE 1 - adds boundaries
+    //adds boundaries on left and right
     if (ship.x < 0) {
       ship.x = 0;
     } 
@@ -313,7 +296,7 @@ require(__DIR__ . "/../../partials/nav.php");
     context.fillStyle = '#FF0000';
     ship.draw();
     // Move and draw the bullet
-    //SIGNIFICANT CHANGE 2 - shooting bullets on one side wont stop the other bullets
+    //Shooting bullets on one side wont stop the other bullets
     if (shootingN || shootingS || shootingE || shootingW) {
       // Move the bullet
       bulletN.y -= bulletN.s;
@@ -417,6 +400,7 @@ require(__DIR__ . "/../../partials/nav.php");
   // Start the game
   menu();
   canvas.focus();
+
 </script>
 
 <?php

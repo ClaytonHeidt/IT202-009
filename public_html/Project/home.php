@@ -1,23 +1,8 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
+is_logged_in(true);
+calc_winners();
 ?>
-<script>
-function changeDuration(){
-    var duration;
-    if(document.getElementById("duration").value == "day"){
-        duration = "day";
-    } else if (document.getElementById("duration").value == "week") {
-        duration = "week";
-    } else if (document.getElementById("duration").value == "lifetime") {
-        duration = "lifetime";
-    } else {
-        duration = "week";
-    }
-    //document.getElementById("lvl").innerHTML=("Level: " +level);
-    changeDuration();
-    window.location.reload();
-    <?php $duration = "month"; ?>
-</script>
 
 <div class="container-fluid">
     <h1>Home</h1>
@@ -43,13 +28,8 @@ function changeDuration(){
 
     ?>
     <br><br>
-    <select id="duration" onchange='changeDuration()'>  
-        <option value="day">Day</option>}  
-        <option value="week">Week</option>
-        <option value="month">Month</option>
-        <option value="lifetime">Lifetime</option>  
-    </select> 
-    <?php $duration = "lifetime"; ?>
+
+    <?php $duration = "week"; ?>
     <?php require(__DIR__ . "/../../partials/score_table.php"); ?>
 </div>
 <?php

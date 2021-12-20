@@ -25,6 +25,14 @@ if (isset($data["score"])) {
         save_score($score, $user_id, true);
         $response["message"] = "Score Saved!";
         error_log("Score of $score saved successfully for $user_id");
+        if ($score >= 10)
+        {
+            $updatePoints = ($score / 10);
+            error_log("$updatePoints points have been added for $user_id");
+            $reason = "Won locally";
+            error_log("Reason: $reason");
+            update_points($updatePoints, $reason, $user_id);
+        }
     } else {
         $response["message"] = "AntiCheat Detection Triggered. Score rejected.";
         flash($response["message"], "danger");
