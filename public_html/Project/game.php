@@ -2,13 +2,11 @@
 require(__DIR__ . "/../../partials/nav.php");
 is_logged_in(true);
 ?>
-
 <div class="container-fluid">
+  <audio name= "four-lines" src="four-lines.mp3" hidden="true" loop="true" autoplay="true" controls></audio>
   <br>
   <canvas id="canvas" width="800" height="600" tabindex="1"></canvas>
 </div>
-
-<!--<img src="ship.png" style="display: none;" />-->
 
 <style>
     #canvas {
@@ -34,12 +32,13 @@ is_logged_in(true);
   // Get the canvas drawing context
   var context = canvas.getContext('2d');
 
-  //var music;
-
   this.background = new Image();
   this.background.src = "space.png";
 
-  //context.drawImage(background,0,0); 
+  //var music;
+  //this.music = "four-lines.mp3";
+  //this.music = new sound("four-lines.mp3");
+  //this.music.play("four-lines.mp3");
 
   // Create an object representing a square on the canvas
   function makeSquare(x, y, length, speed) {
@@ -83,11 +82,20 @@ is_logged_in(true);
   // Add an enemy object to the array
   var enemyBaseSpeed = 2;
   function makeEnemy() {
-    var enemyX = canvas.width;
-    var enemySize = Math.round((Math.random() * 15)) + 15;
-    var enemyY = Math.round(Math.random() * (canvas.height - enemySize * 2)) + enemySize;
-    var enemySpeed = Math.round(Math.random() * enemyBaseSpeed) + enemyBaseSpeed;
-    enemies.push(makeSquare(enemyX, enemyY, enemySize, enemySpeed));
+    var side = Math.floor(Math.random() * 2);
+    if (side == 1) {
+      var enemyX = -20;
+      var enemySize = Math.round((Math.random() * 15)) + 15;
+      var enemyY = Math.round(Math.random() * (canvas.height - enemySize * 2)) + enemySize;
+      var enemySpeed = -1 * (Math.round(Math.random() * enemyBaseSpeed) + enemyBaseSpeed);
+      enemies.push(makeSquare(enemyX, enemyY, enemySize, enemySpeed));
+    } else {
+      var enemyX = canvas.width + 20;
+      var enemySize = Math.round((Math.random() * 15)) + 15;
+      var enemyY = Math.round(Math.random() * (canvas.height - enemySize * 2)) + enemySize;
+      var enemySpeed = Math.round(Math.random() * enemyBaseSpeed) + enemyBaseSpeed;
+      enemies.push(makeSquare(enemyX, enemyY, enemySize, enemySpeed));
+    }
   }
 
   // Check if number a is in the range b to c (exclusive)
@@ -141,11 +149,6 @@ is_logged_in(true);
       //Changed instructions to match significant change 1
       context.fillText('Use the arrow keys to move, Space to shoot.', canvas.width / 2, (canvas.height / 4) * 3);
     }
-    Audio.onload = function (){
-      var music = new sound("four-lines.mp3");
-      music.play();
-    }
-
     // Start the game on a click
     canvas.addEventListener('click', startGame);
   }
@@ -290,7 +293,7 @@ is_logged_in(true);
     // Move and draw the enemies
     enemies.forEach(function(enemy) {
       enemy.x -= enemy.s;
-      if (enemy.x < 0) {
+      if (enemy.x < -20 || enemy.x > (canvas.width + 20)) {
         gameOver = true;
       }
       context.fillStyle = '#00FF00';
@@ -332,7 +335,7 @@ is_logged_in(true);
     }  
 
     // Draw the ship
-    context.fillStyle = '#FF8C00';  //orange
+    context.fillStyle = '#0088CC';  //electric blue
     ship.draw();
     // Move and draw the bullet
     //Shooting bullets on one side wont stop the other bullets
@@ -413,7 +416,7 @@ is_logged_in(true);
         shootingW = false;
       }
       // Draw the bullet
-      context.fillStyle = '#FFFF99';
+      context.fillStyle = '#FFFF99'; //light yellow
       bulletN.draw();
       bulletS.draw();
       bulletE.draw();
@@ -421,7 +424,7 @@ is_logged_in(true);
     }
     
     // Draw the score
-    context.fillStyle = '#FFFF99';
+    context.fillStyle = '#FFFF99';  //light yellow
     context.font = '24px Arial';
     context.textAlign = 'left';
     context.fillText('Score: ' + score, 1, 25)
