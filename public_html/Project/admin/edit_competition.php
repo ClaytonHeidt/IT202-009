@@ -1,6 +1,26 @@
 <?php
-require_once(__DIR__ . "/../../partials/nav.php");
+require_once(__DIR__ . "/../../../partials/nav.php");
 is_logged_in(true);
+$db = getDB();
+$id = se($_GET, "id", -1, false);
+
+//handle page load
+$stmt = $db->prepare("SELECT Competitions.id, name, min_participants, current_participants, current_reward, expires, min_score, join_fee, IF(comp_id is null, 0, 1) as joined, CONCAT(first_place_per,'% - ', second_place_per, '% - ', third_place_per, '%') as place FROM Competitions
+LEFT JOIN (SELECT * FROM CompetitionParticipants WHERE CompetitionParticipants.user_id = :uid) as t ON t.comp_id = Competitions.id WHERE Competitions.id = :cid");
+
+$row = [];
+$comp = "";
+try {
+    $stmt->execute([":uid" => get_user_id(), ":cid" => $id]);
+    $r = $stmt->fetch();
+    if ($r) {
+        $row = $r;
+        $comp = se($r, "name", "N/A", false);
+    }
+} catch (PDOException $e) {
+    flash("There was a problem fetching competitions, please try again later", "danger");
+    error_log("List competitions error: " . var_export($e, true));
+}
 
 if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $first = (int)se($_POST, "first_place_per", 0, false);
@@ -15,19 +35,13 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     $name = se($_POST, "name", "N/A", false);
     $points = get_user_points();
     if ($total == 100) {
-        if ($points >= $cost) {
-            $cost *= -1;
-            update_points($cost, "created_comp", $user_id);
-            $comp_id = save_data("Competitions", $_POST);
-            if ($comp_id > 0) {
-                if (add_to_competition($comp_id, get_user_id())) {
-                    flash("Successfully created competition", "success");
-                } else {
-                    flash("Something went wrong while creating competition", "warning");                   
-                }
+        $comp_id = save_data("Competitions", $_POST);
+        if ($comp_id > 0) {
+            if (add_to_competition($comp_id, get_user_id())) {
+                flash("Successfully edited the competition", "success");
+            } else {
+                flash("Something went wrong while editing competition", "warning");                   
             }
-        } else {
-            flash("You can't afford this right now", "warning");
         }
     } else {
         flash("Reward percentage must add up to 100%", "warning");
@@ -35,8 +49,10 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
 }
 ?>
 
+<head><link rel="stylesheet" href="/Project/styles.css"></head>
+
 <div class="container-fluid">
-    <h1>Edit Competition</h1>
+<h1>Edit Competition: <?php se($comp); ?></h1>
     <form method="POST">
         <div class="mb-3">
             <label for="cname" class="form-label">Competition Name</label>
@@ -86,5 +102,5 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
     </script>
 </div>
 <?php
-require(__DIR__ . "/../../partials/flash.php");
+require(__DIR__ . "/../../../partials/flash.php");
 ?>

@@ -4,12 +4,9 @@ is_logged_in(true);
 calc_winners();
 $db = getDB();
 //handle join
-if (isset($_POST["join"])) {
-    $user_id = get_user_id();
+if (isset($_POST["edit"])) {
     $comp_id = se($_POST, "comp_id", 0, false);
-    $cost = se($_POST, "join_fee", 0, false);
-    $points = get_user_points();
-    join_competition($comp_id, $user_id, $cost);
+    redirect("edit_competition");
 }
 $per_page = 10;
 
@@ -36,7 +33,7 @@ try {
 <head><link rel="stylesheet" href="/Project/styles.css"></head>
 
 <div class="container-fluid">
-    <h1>Active Competitions</h1>
+    <h1>Edit Active Competitions</h1>
     <table class="table text-light">
         <thead>
             <th>Competition Name</th>
@@ -56,16 +53,9 @@ try {
                         <td><?php se($row, "min_score"); ?></td>
                         <td><?php se($row, "expires", "-"); ?></td>
                         <td>
-                            <?php if (se($row, "joined", 0, false)) : ?>
-                                <button class="btn btn-primary disabled" onclick="event.preventDefault()" disabled>Already Joined</button>
-                            <?php else : ?>
-                                <form method="POST">
-                                    <input type="hidden" name="comp_id" value="<?php se($row, 'id'); ?>" />
-                                    <input type="hidden" name="cost" value="<?php se($row, 'join_fee', 0); ?>" />
-                                    <input type="submit" name="join" class="btn btn-primary" value="Join (Cost: <?php se($row, "join_fee", 0) ?>)" />
-                                </form>
-                            <?php endif; ?>
-                            <a class="btn btn-secondary" href="view_competition.php?id=<?php se($row, 'id'); ?>">View</a>
+                            <?php //endif; ?>
+                            <a class="btn btn-primary" href="edit_competition.php?id=<?php se($row, 'id'); ?>">Edit</a>
+                            <a class="btn btn-secondary" href="/Project/view_competition.php?id=<?php se($row, 'id'); ?>">View</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
