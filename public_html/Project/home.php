@@ -31,6 +31,10 @@ calc_winners();
 
     <?php $duration = "week"; ?>
     <?php require(__DIR__ . "/../../partials/score_table.php"); ?>
+    <?php $duration = "month"; ?>
+    <?php require(__DIR__ . "/../../partials/score_table.php"); ?>
+    <?php $duration = "lifetime"; ?>
+    <?php require(__DIR__ . "/../../partials/score_table.php"); ?>
 </div>
 <?php
 require(__DIR__ . "/../../partials/flash.php");
