@@ -360,6 +360,23 @@ function add_to_competition($comp_id, $user_id)
     return false;
 }
 
+function edit_competition($compid, $compname, $starting_reward, $min_score, $min_participants, 
+$join_fee, $duration, $first_place_per, $second_place_per, $third_place_per)
+{
+    $db = getDB();
+    $stmt = $db->prepare("UPDATE Competitions SET name = $compname, starting_reward = $starting_reward, min_score = $min_score,
+    min_participants = $min_participants, join_fee = $join_fee, duration = $duration, first_place_per = $first_place_per,
+    second_place_per = $second_place_per, third_place_per = $third_place_per WHERE id = $compid");
+    try {
+        $stmt->execute();
+        flash("Competition updated!", "success");
+        return true;
+    } catch (PDOException $e) {
+        flash("Update to Competitions failed", "danger");
+    }
+    return false;
+}
+
 function join_competition($comp_id, $user_id, $cost)
 {
     $points = get_user_points();

@@ -33,7 +33,7 @@ try {
 <head><link rel="stylesheet" href="/Project/styles.css"></head>
 
 <div class="container-fluid">
-    <h1>Edit Active Competitions</h1>
+    <h1>Edit Active Competition</h1>
     <table class="table text-light">
         <thead>
             <th>Competition Name</th>
@@ -61,7 +61,7 @@ try {
                 <?php endforeach; ?>
             <?php else : ?>
                 <tr>
-                    <td colspan="100%">No active competitions</td>
+                    <td colspan="100%">No active competitions to edit</td>
                 </tr>
             <?php endif; ?>
         </tbody>
