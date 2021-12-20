@@ -4,7 +4,6 @@ is_logged_in(true);
 ?>
 <div class="container-fluid">
   <audio name= "four-lines" src="four-lines.mp3" hidden="true" loop="true" autoplay="true" controls></audio>
-  <br>
   <canvas id="canvas" width="800" height="600" tabindex="1"></canvas>
 </div>
 
@@ -14,6 +13,7 @@ is_logged_in(true);
       height: 600px;
       border: 1px solid black;
 
+      margin-top: 10px;
       padding-left: 0;
       padding-right: 0;
       margin-left: auto;
@@ -85,13 +85,13 @@ is_logged_in(true);
     var side = Math.floor(Math.random() * 2);
     if (side == 1) {
       var enemyX = -20;
-      var enemySize = Math.round((Math.random() * 15)) + 15;
+      var enemySize = Math.round((Math.random() * 20)) + 18;
       var enemyY = Math.round(Math.random() * (canvas.height - enemySize * 2)) + enemySize;
       var enemySpeed = -1 * (Math.round(Math.random() * enemyBaseSpeed) + enemyBaseSpeed);
       enemies.push(makeSquare(enemyX, enemyY, enemySize, enemySpeed));
     } else {
       var enemyX = canvas.width + 20;
-      var enemySize = Math.round((Math.random() * 15)) + 15;
+      var enemySize = Math.round((Math.random() * 20)) + 18;
       var enemyY = Math.round(Math.random() * (canvas.height - enemySize * 2)) + enemySize;
       var enemySpeed = Math.round(Math.random() * enemyBaseSpeed) + enemyBaseSpeed;
       enemies.push(makeSquare(enemyX, enemyY, enemySize, enemySpeed));
@@ -129,7 +129,7 @@ is_logged_in(true);
   var reason;
 
   // The delay between enemies (in milliseconds)
-  var timeBetweenEnemies = 5 * 1000;
+  var timeBetweenEnemies = 4 * 1000;
   // ID to track the spawn timeout
   var timeoutId = null;
 
@@ -296,7 +296,7 @@ is_logged_in(true);
       if (enemy.x < -20 || enemy.x > (canvas.width + 20)) {
         gameOver = true;
       }
-      context.fillStyle = '#00FF00';
+      context.fillStyle = '#8A7F80';
       enemy.draw();
     });
     // Collide the ship with enemies
@@ -348,55 +348,16 @@ is_logged_in(true);
 
       // Collide the bullet with enemies
       enemies.forEach(function(enemy, i) {
-        if (isColliding(bulletE, enemy) && shootingE == true) {
+        if (isColliding(bulletE, enemy) && shootingE == true || isColliding(bulletW, enemy) && shootingW == true ||
+        isColliding(bulletN, enemy)  && shootingN == true || isColliding(bulletS, enemy)  && shootingS == true) {
           enemies.splice(i, 1);
           score++;
-          //shootingE = false;
           // Make the game harder
-          if (score % 10 === 0 && timeBetweenEnemies > 1000) {
+          if (score % 5 === 0 && timeBetweenEnemies > 1000) {
             clearInterval(timeoutId);
-            timeBetweenEnemies -= 1000;
+            timeBetweenEnemies -= 500;
             timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
-          } else if (score % 5 === 0) {
-            enemyBaseSpeed += 1;
-          }
-        }
-        if (isColliding(bulletW, enemy) && shootingW == true) {
-          enemies.splice(i, 1);
-          score++;
-          //shootingW = false;
-          // Make the game harder
-          if (score % 10 === 0 && timeBetweenEnemies > 1000) {
-            clearInterval(timeoutId);
-            timeBetweenEnemies -= 1000;
-            timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
-          } else if (score % 5 === 0) {
-            enemyBaseSpeed += 1;
-          }
-        }
-        if (isColliding(bulletN, enemy)  && shootingN == true) {
-          enemies.splice(i, 1);
-          score++;
-          //shootingN = false;
-          // Make the game harder
-          if (score % 10 === 0 && timeBetweenEnemies > 1000) {
-            clearInterval(timeoutId);
-            timeBetweenEnemies -= 1000;
-            timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
-          } else if (score % 5 === 0) {
-            enemyBaseSpeed += 1;
-          }
-        }
-        if (isColliding(bulletS, enemy)  && shootingS == true) {
-          enemies.splice(i, 1);
-          score++;
-          //shootingS = false;
-          // Make the game harder
-          if (score % 10 === 0 && timeBetweenEnemies > 1000) {
-            clearInterval(timeoutId);
-            timeBetweenEnemies -= 1000;
-            timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
-          } else if (score % 5 === 0) {
+          } else if (score % 15 === 0) {
             enemyBaseSpeed += 1;
           }
         }
