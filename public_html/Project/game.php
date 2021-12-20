@@ -5,12 +5,14 @@ is_logged_in(true);
 
 <div class="container-fluid">
   <br>
-  <canvas id="canvas" width="900" height="600" tabindex="1"></canvas>
+  <canvas id="canvas" width="800" height="600" tabindex="1"></canvas>
 </div>
 
-  <style>
+<!--<img src="ship.png" style="display: none;" />-->
+
+<style>
     #canvas {
-      width: 900px;
+      width: 800px;
       height: 600px;
       border: 1px solid black;
 
@@ -20,6 +22,7 @@ is_logged_in(true);
       margin-right: auto;
       display: block;
     }
+    
 </style>
 
 <script>
@@ -30,6 +33,13 @@ is_logged_in(true);
   var canvas = document.getElementById('canvas');
   // Get the canvas drawing context
   var context = canvas.getContext('2d');
+
+  //var music;
+
+  this.background = new Image();
+  this.background.src = "space.png";
+
+  //context.drawImage(background,0,0); 
 
   // Create an object representing a square on the canvas
   function makeSquare(x, y, length, speed) {
@@ -118,27 +128,38 @@ is_logged_in(true);
   // Show the game menu and instructions
   function menu() {
     erase();
-    context.fillStyle = '#000000';
-    context.font = '36px Arial';
-    context.textAlign = 'center';
-    context.fillText('Star Shooter!', canvas.width / 2, canvas.height / 4);
-    context.font = '24px Arial';
-    context.fillText('Click to Start', canvas.width / 2, canvas.height / 2);
-    context.font = '18px Arial';
-    //Changed instructions to match significant change 1
-    context.fillText('Use the arrow keys to move, Space to shoot.', canvas.width / 2, (canvas.height / 4) * 3);
+    // Make sure the image is loaded first otherwise nothing will draw.
+    background.onload = function(){
+      context.drawImage(background,0,0);  
+      context.fillStyle = '#FFFF99';
+      context.font = '36px Arial';
+      context.textAlign = 'center';
+      context.fillText('Star Shooter!', canvas.width / 2, canvas.height / 4);
+      context.font = '24px Arial';
+      context.fillText('Click to Start', canvas.width / 2, canvas.height / 2);
+      context.font = '18px Arial';
+      //Changed instructions to match significant change 1
+      context.fillText('Use the arrow keys to move, Space to shoot.', canvas.width / 2, (canvas.height / 4) * 3);
+    }
+    Audio.onload = function (){
+      var music = new sound("four-lines.mp3");
+      music.play();
+    }
+
     // Start the game on a click
     canvas.addEventListener('click', startGame);
   }
 
   // Start the game
   function startGame() {
+    
     // Kick off the enemy spawn interval
     timeoutId = setInterval(makeEnemy, timeBetweenEnemies);
     // Make the first enemy
     setTimeout(makeEnemy, 1000);
     // Kick off the draw loop
     draw();
+    
     // Stop listening for click events
     canvas.removeEventListener('click', startGame);
   }
@@ -150,11 +171,13 @@ is_logged_in(true);
     clearInterval(timeoutId);
     // Show the final score
     erase();
-    context.fillStyle = '#000000';
-    context.font = '24px Arial';
-    context.textAlign = 'center';
-    context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
-    
+    background.onload = function(){
+      context.drawImage(background,0,0);  
+      context.fillStyle = '#FFFF99';
+      context.font = '24px Arial';
+      context.textAlign = 'center';
+      context.fillText('Game Over. Final Score: ' + score, canvas.width / 2, canvas.height / 2);
+    }
 
     if (score > 0) {
       let http = new XMLHttpRequest();
@@ -215,19 +238,28 @@ is_logged_in(true);
 
   // Clear the canvas
   function erase() {
-    context.fillStyle = '#FFFFFF';
+    context.fillStyle = '#FFFF99';
     context.fillRect(0, 0, canvas.width, canvas.height);
   }
 
   // Shoot the bullet (if not already on screen)
   //PART OF SIGNIFICANT CHANGE 2 - shoot function for all directional bullets
   function shoot() {
-    if (!shootingN) {
+    if (!shootingN && !shootingS && !shootingE && !shootingW) {
       shootingN = true;
+      shootingS = true;
+      shootingE = true;
+      shootingW = true;
       bulletN.x = ship.x + ship.l / 2;
       bulletN.y = ship.y + ship.l / 2;
+      bulletS.x = ship.x + ship.l / 2;
+      bulletS.y = ship.y + ship.l / 2;
+      bulletW.x = ship.x + ship.l / 2;
+      bulletW.y = ship.y + ship.l / 2;
+      bulletE.x = ship.x + ship.l / 2;
+      bulletE.y = ship.y + ship.l / 2;
     }
-    if (!shootingS) {
+    /*if (!shootingS) {
       shootingS = true;
       bulletS.x = ship.x + ship.l / 2;
       bulletS.y = ship.y + ship.l / 2;
@@ -241,13 +273,20 @@ is_logged_in(true);
       shootingW = true;
       bulletW.x = ship.x + ship.l / 2;
       bulletW.y = ship.y + ship.l / 2;
-    }
+    }*/
   }
 
   // The main draw loop
   function draw() {
+    
     erase();
     var gameOver = false;
+    this.background = new Image();
+    this.background.src = "space.png"; 
+    
+    // Make sure the image is loaded first otherwise nothing will draw.
+    context.drawImage(background,0,0);
+
     // Move and draw the enemies
     enemies.forEach(function(enemy) {
       enemy.x -= enemy.s;
@@ -290,10 +329,10 @@ is_logged_in(true);
     } 
     if (ship.x > canvas.width - 50) {
       ship.x = canvas.width - 50;
-    } 
+    }  
 
     // Draw the ship
-    context.fillStyle = '#FF0000';
+    context.fillStyle = '#FF8C00';  //orange
     ship.draw();
     // Move and draw the bullet
     //Shooting bullets on one side wont stop the other bullets
@@ -309,7 +348,7 @@ is_logged_in(true);
         if (isColliding(bulletE, enemy) && shootingE == true) {
           enemies.splice(i, 1);
           score++;
-          shootingE = false;
+          //shootingE = false;
           // Make the game harder
           if (score % 10 === 0 && timeBetweenEnemies > 1000) {
             clearInterval(timeoutId);
@@ -322,7 +361,7 @@ is_logged_in(true);
         if (isColliding(bulletW, enemy) && shootingW == true) {
           enemies.splice(i, 1);
           score++;
-          shootingW = false;
+          //shootingW = false;
           // Make the game harder
           if (score % 10 === 0 && timeBetweenEnemies > 1000) {
             clearInterval(timeoutId);
@@ -335,7 +374,7 @@ is_logged_in(true);
         if (isColliding(bulletN, enemy)  && shootingN == true) {
           enemies.splice(i, 1);
           score++;
-          shootingN = false;
+          //shootingN = false;
           // Make the game harder
           if (score % 10 === 0 && timeBetweenEnemies > 1000) {
             clearInterval(timeoutId);
@@ -348,7 +387,7 @@ is_logged_in(true);
         if (isColliding(bulletS, enemy)  && shootingS == true) {
           enemies.splice(i, 1);
           score++;
-          shootingS = false;
+          //shootingS = false;
           // Make the game harder
           if (score % 10 === 0 && timeBetweenEnemies > 1000) {
             clearInterval(timeoutId);
@@ -374,21 +413,19 @@ is_logged_in(true);
         shootingW = false;
       }
       // Draw the bullet
-      context.fillStyle = '#0000FF';
+      context.fillStyle = '#FFFF99';
       bulletN.draw();
-      context.fillStyle = '#0000FF';
       bulletS.draw();
-      context.fillStyle = '#0000FF';
       bulletE.draw();
-      context.fillStyle = '#0000FF';
       bulletW.draw();
     }
     
     // Draw the score
-    context.fillStyle = '#000000';
+    context.fillStyle = '#FFFF99';
     context.font = '24px Arial';
     context.textAlign = 'left';
     context.fillText('Score: ' + score, 1, 25)
+
     // End or continue the game
     if (gameOver) {
       endGame();
@@ -396,7 +433,7 @@ is_logged_in(true);
       window.requestAnimationFrame(draw);
     }
   }
-
+  
   // Start the game
   menu();
   canvas.focus();
