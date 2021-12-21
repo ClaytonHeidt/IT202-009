@@ -22,8 +22,6 @@ first_place_per, second_place_per, third_place_per) FROM Competitions VALUES (:i
 $total_query = "SELECT count(1) as total FROM Competitions";
 
 $params = [];
-//$params [] = ":id :name, :min_participants, :current_participants, :current_reward, :expires, :min_score, :join_fee,
-//:first_place_per, :second_place_per, :third_place_per";
 $query = " WHERE 1=1";
 if (!empty($name)) {
     $query .= " AND name like :name";
@@ -37,7 +35,9 @@ $stmt = $db->prepare("SELECT Competitions.id, name, min_participants, current_pa
 IF(comp_id is null, 0, 1) as joined, CONCAT(first_place_per,'% - ', second_place_per, '% - ', third_place_per, '%') as place FROM Competitions
 LEFT JOIN (SELECT * FROM CompetitionParticipants WHERE user_id = :uid) as uc ON uc.comp_id = Competitions.id
 WHERE user_id = $user_id ORDER BY expires LIMIT $per_page OFFSET $offset");
+
 $results = [];
+
 try {
     $stmt->execute([":uid" => get_user_id()]);
     $r = $stmt->fetchAll();

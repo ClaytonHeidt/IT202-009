@@ -13,14 +13,30 @@ if (isset($_POST["join"])) {
 }
 $per_page = 10;
 
-paginate("SELECT count(1) as total FROM Competitions WHERE expires > current_timestamp() AND paid_out < 1");
+//split query into data and total
+$base_query = "(id, name, min_participants, current_participants, current_reward, expires, min_score, join_fee,
+first_place_per, second_place_per, third_place_per) FROM Competitions VALUES (:id, :name, :min_participants, :current_participants, :current_reward, :expires, :min_score, :join_fee,
+:first_place_per, :second_place_per, :third_place_per)";
+$total_query = "SELECT count(1) as total FROM Competitions";
+
+$params = [];
+$query = " WHERE expires > current_timestamp() AND paid_out < 1";
+if (!empty($name)) {
+    $query .= " AND name like :name";
+    $params[":name"] = "%$name%";
+}
+$name = se($_GET, "name", "", false);
+
+paginate($total_query . $query, $params, $per_page);
+
 //handle page load
 $stmt = $db->prepare("SELECT Competitions.id, name, min_participants, current_participants, current_reward, expires, min_score, join_fee,
 IF(comp_id is null, 0, 1) as joined, CONCAT(first_place_per,'% - ', second_place_per, '% - ', third_place_per, '%') as place FROM Competitions
 LEFT JOIN (SELECT * FROM CompetitionParticipants WHERE user_id = :uid) as uc ON uc.comp_id = Competitions.id WHERE expires > current_timestamp()
-AND paid_out < 1 ORDER BY expires LIMIT 10");
+AND paid_out < 1 ORDER BY expires LIMIT $per_page OFFSET $offset");
 
 $results = [];
+
 try {
     $stmt->execute([":uid" => get_user_id()]);
     $r = $stmt->fetchAll();
