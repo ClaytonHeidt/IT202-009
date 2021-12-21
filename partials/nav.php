@@ -44,6 +44,7 @@ require_once(__DIR__ . "/../lib/functions.php");
                         <ul class="dropdown-menu bg-warning" aria-labelledby="competitionsDropdown">
                             <li><a class="dropdown-item" href="<?php echo get_url('new_competition.php'); ?>">New Competition</a></li>
                             <li><a class="dropdown-item" href="<?php echo get_url('active_competitions.php'); ?>">Active Competitions</a></li>
+                            <li><a class="dropdown-item" href="<?php echo get_url('competition_history.php'); ?>">Competition History</a></li>
                         </ul>
                     </li>
                     
