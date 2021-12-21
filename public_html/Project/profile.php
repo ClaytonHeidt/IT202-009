@@ -136,16 +136,17 @@ $total_query = "SELECT count(1) as total FROM Scores";
 
 $params = [];
 $query = " WHERE user_id = $user_id";
+$name = se($_GET, "name", "", false);
+
 if (!empty($name)) {
     $query .= " AND name like :name";
     $params[":name"] = "%$name%";
 }
-$name = se($_GET, "name", "", false);
 
 paginate($total_query . $query, $params, $per_page);
 
 //handle page load
-$stmt = $db->prepare("SELECT score, created FROM Scores WHERE user_id = $user_id LIMIT $per_page OFFSET $offset");
+$stmt = $db->prepare("SELECT score, created FROM Scores WHERE user_id = $user_id ORDER BY created DESC LIMIT $per_page OFFSET $offset");
 
 $results = [];
 
@@ -185,12 +186,18 @@ try {
                 <th>Time</th>
             </thead>
             <tbody>
-                <?php foreach ($scores as $score) : ?>
-                    <tr>
-                        <td><?php se($score, "score", 0); ?></td>
-                        <td><?php se($score, "created", "-"); ?></td>
-                    </tr>
-                <?php endforeach; ?>
+            <?php if (count($results) > 0) : ?>
+                    <?php foreach ($results as $row) : ?>
+                        <tr>
+                            <td><?php se($row, "score", 0); ?></td>
+                            <td><?php se($row, "created", "-"); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php else : ?>
+                <tr>
+                    <td colspan="100%">No Scores Yet!</td>
+                </tr>
+            <?php endif; ?>
             </tbody>
         </table>
         <?php include(__DIR__ . "/../../partials/pagination.php"); ?>
