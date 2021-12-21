@@ -13,7 +13,7 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
 
     $user_id = get_user_id();
     $name = se($_POST, "name", "N/A", false);
-    $points = get_user_points();
+    $points = get_user_points($user_id);
     if ($total == 100) {
         if ($points >= $cost) {
             $cost *= -1;

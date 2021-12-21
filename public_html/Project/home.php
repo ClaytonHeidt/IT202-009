@@ -8,7 +8,8 @@ calc_winners();
     <h1>Home</h1>
     <?php
     $role = get_user_role();
-    $points = get_user_points();
+    $user_id = get_user_id();
+    $points = get_user_points($user_id);
 
     if (is_logged_in(true)) {
         echo "Welcome home, " . get_username();

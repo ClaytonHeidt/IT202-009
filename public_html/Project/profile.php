@@ -138,7 +138,7 @@ try {
         <?php endif; ?>
     <?php endif; ?>
     <div>
-        <?php $points = get_user_points(); ?>
+        <?php $points = get_user_points($user_id); ?>
         Best Score: <?php echo get_best_score($user_id);?>
         <?php echo "<br>"; ?>
         Points: <?php echo $points; ?>

@@ -222,11 +222,11 @@ function get_latest_scores($user_id, $limit = 10)
     return [];
 }
 
-function get_user_points()
+function get_user_points($user_id)
 {
     $db = getDB();
-    $stmt = $db->prepare("SELECT points FROM Users WHERE id=?");
-    $stmt->execute([get_user_id()]);
+    $stmt = $db->prepare("SELECT points FROM Users WHERE id=$user_id");
+    $stmt->execute();
     $points = $stmt->fetchColumn();
 
     return $points;
@@ -385,7 +385,7 @@ $join_fee, $duration, $first_place_per, $second_place_per, $third_place_per)
 
 function join_competition($comp_id, $user_id, $cost)
 {
-    $points = get_user_points();
+    $points = get_user_points($user_id);
     if ($comp_id > 0) {
         if ($points >= $cost) {
             $db = getDB();

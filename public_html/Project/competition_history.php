@@ -3,14 +3,7 @@ require_once(__DIR__ . "/../../partials/nav.php");
 is_logged_in(true);
 calc_winners();
 $db = getDB();
-//handle join
-if (isset($_POST["join"])) {
-    $user_id = get_user_id();
-    $comp_id = se($_POST, "comp_id", 0, false);
-    $cost = se($_POST, "join_fee", 0, false);
-    $points = get_user_points();
-    join_competition($comp_id, $user_id, $cost);
-}
+
 $per_page = 10;
 
 $user_id = get_user_id();
