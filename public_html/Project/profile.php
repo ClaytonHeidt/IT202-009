@@ -127,6 +127,40 @@ try {
 } catch (Exception $e) {
     echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
 }
+
+$per_page = 10;
+
+//split query into data and total
+$base_query = "(score, user_id) FROM Scores VALUES (:score, :uid)";
+$total_query = "SELECT count(1) as total FROM Scores";
+
+$params = [];
+$query = " WHERE user_id = $user_id";
+$name = se($_GET, "name", "", false);
+
+if (!empty($name)) {
+    $query .= " AND name like :name";
+    $params[":name"] = "%$name%";
+}
+
+paginate($total_query . $query, $params, $per_page);
+
+//handle page load
+$stmt = $db->prepare("SELECT score, created FROM Scores WHERE user_id = $user_id ORDER BY created DESC LIMIT $per_page OFFSET $offset");
+
+$results = [];
+
+try {
+    $stmt->execute();
+    $r = $stmt->fetchAll();
+    if ($r) {
+        $results = $r;
+    }
+} catch (PDOException $e) {
+    flash("There was a problem fetching scores", "danger");
+    error_log("Scores error: " . var_export($e, true));
+}
+
 ?>
 <div class="container-fluid">
     <h1>Profile</h1>
@@ -138,7 +172,7 @@ try {
         <?php endif; ?>
     <?php endif; ?>
     <div>
-        <?php $points = get_user_points(); ?>
+        <?php $points = get_user_points($user_id); ?>
         Best Score: <?php echo get_best_score($user_id);?>
         <?php echo "<br>"; ?>
         Points: <?php echo $points; ?>
@@ -152,14 +186,21 @@ try {
                 <th>Time</th>
             </thead>
             <tbody>
-                <?php foreach ($scores as $score) : ?>
-                    <tr>
-                        <td><?php se($score, "score", 0); ?></td>
-                        <td><?php se($score, "created", "-"); ?></td>
-                    </tr>
-                <?php endforeach; ?>
+            <?php if (count($results) > 0) : ?>
+                    <?php foreach ($results as $row) : ?>
+                        <tr>
+                            <td><?php se($row, "score", 0); ?></td>
+                            <td><?php se($row, "created", "-"); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php else : ?>
+                <tr>
+                    <td colspan="100%">No Scores Yet!</td>
+                </tr>
+            <?php endif; ?>
             </tbody>
         </table>
+        <?php include(__DIR__ . "/../../partials/pagination.php"); ?>
     </div>
     <?php if (!$edit) : ?>
         <div>Username: <?php se($username); ?></div>

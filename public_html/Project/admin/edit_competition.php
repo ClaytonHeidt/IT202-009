@@ -63,7 +63,6 @@ if (isset($_POST["name"]) && !empty($_POST["name"])) {
 
     $user_id = get_user_id();
     $name = se($_POST, "name", "N/A", false);
-    $points = get_user_points();
     if ($total == 100) {
         edit_competition($compid, $compname, $starting_reward, $min_score, $min_participants,
         $join_fee, $duration, $first_place_per, $second_place_per, $third_place_per);
