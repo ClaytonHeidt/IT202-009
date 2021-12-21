@@ -42,8 +42,10 @@ try {
 } catch (PDOException $e) {
     flash(var_export($e->errorInfo, true), "danger");
 }
-
 ?>
+
+<head><link rel="stylesheet" href="/Project/styles.css"></head>
+
 <div class="container-fluid">
     <h1>List Roles</h1>
     <form method="POST" class="row row-cols-lg-auto g-3 align-items-center">
@@ -91,10 +93,4 @@ try {
 <?php
     //note we need to go up 1 more directory
     require_once(__DIR__ . "/../../../partials/flash.php");
-    ?>
-<style>
-    body {
-        background-color: gray;
-        color: darkred;
-    }
-</style>
+?>
