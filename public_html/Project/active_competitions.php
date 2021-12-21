@@ -29,7 +29,6 @@ $name = se($_GET, "name", "", false);
 
 paginate($total_query . $query, $params, $per_page);
 
-//paginate("SELECT count(1) as total FROM Competitions WHERE expires > current_timestamp() AND paid_out < 1");
 //handle page load
 $stmt = $db->prepare("SELECT Competitions.id, name, min_participants, current_participants, current_reward, expires, min_score, join_fee,
 IF(comp_id is null, 0, 1) as joined, CONCAT(first_place_per,'% - ', second_place_per, '% - ', third_place_per, '%') as place FROM Competitions
