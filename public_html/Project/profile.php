@@ -127,6 +127,39 @@ try {
 } catch (Exception $e) {
     echo "<pre>" . var_export($e->errorInfo, true) . "</pre>";
 }
+
+$per_page = 10;
+
+//split query into data and total
+$base_query = "(score, user_id) FROM Scores VALUES (:score, :uid)";
+$total_query = "SELECT count(1) as total FROM Scores";
+
+$params = [];
+$query = " WHERE user_id = $user_id";
+if (!empty($name)) {
+    $query .= " AND name like :name";
+    $params[":name"] = "%$name%";
+}
+$name = se($_GET, "name", "", false);
+
+paginate($total_query . $query, $params, $per_page);
+
+//handle page load
+$stmt = $db->prepare("SELECT score, created FROM Scores WHERE user_id = $user_id LIMIT $per_page OFFSET $offset");
+
+$results = [];
+
+try {
+    $stmt->execute();
+    $r = $stmt->fetchAll();
+    if ($r) {
+        $results = $r;
+    }
+} catch (PDOException $e) {
+    flash("There was a problem fetching scores", "danger");
+    error_log("Scores error: " . var_export($e, true));
+}
+
 ?>
 <div class="container-fluid">
     <h1>Profile</h1>
@@ -160,6 +193,7 @@ try {
                 <?php endforeach; ?>
             </tbody>
         </table>
+        <?php include(__DIR__ . "/../../partials/pagination.php"); ?>
     </div>
     <?php if (!$edit) : ?>
         <div>Username: <?php se($username); ?></div>
