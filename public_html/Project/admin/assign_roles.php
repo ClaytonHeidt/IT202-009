@@ -65,9 +65,10 @@ if (isset($_POST["username"])) {
         flash("Username must not be empty", "warning");
     }
 }
-
-
 ?>
+
+<head><link rel="stylesheet" href="/Project/styles.css"></head>
+
 <div class="container-fluid">
     <h1>Assign Roles</h1>
     <form method="POST" class="row row-cols-lg-auto g-3 align-items-center">
@@ -118,9 +119,3 @@ if (isset($_POST["username"])) {
 //note we need to go up 1 more directory
 require_once(__DIR__ . "/../../../partials/flash.php");
 ?>
-<style>
-    body {
-        background-color: gray;
-        color: darkred;
-    }
-</style>
