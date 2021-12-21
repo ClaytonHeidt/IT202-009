@@ -1,6 +1,8 @@
 <?php
 require(__DIR__ . "/../../partials/nav.php");
-is_logged_in(true);
+if(!is_logged_in(false)){
+  flash("You are currently not logged in, score will not able to be recorded", "warning");
+}
 ?>
 <div class="container-fluid">
   <audio name= "four-lines" src="four-lines.mp3" hidden="true" loop="true" autoplay="true" controls></audio>
@@ -11,7 +13,7 @@ is_logged_in(true);
     #canvas {
       width: 800px;
       height: 600px;
-      border: 1px solid black;
+      border: 1px solid gray;
 
       margin-top: 10px;
       padding-left: 0;
@@ -262,21 +264,6 @@ is_logged_in(true);
       bulletE.x = ship.x + ship.l / 2;
       bulletE.y = ship.y + ship.l / 2;
     }
-    /*if (!shootingS) {
-      shootingS = true;
-      bulletS.x = ship.x + ship.l / 2;
-      bulletS.y = ship.y + ship.l / 2;
-    }
-    if (!shootingE) {
-      shootingE = true;
-      bulletE.x = ship.x + ship.l / 2;
-      bulletE.y = ship.y + ship.l / 2;
-    }
-    if (!shootingW) {
-      shootingW = true;
-      bulletW.x = ship.x + ship.l / 2;
-      bulletW.y = ship.y + ship.l / 2;
-    }*/
   }
 
   // The main draw loop
@@ -388,7 +375,9 @@ is_logged_in(true);
     context.fillStyle = '#FFFF99';  //light yellow
     context.font = '24px Arial';
     context.textAlign = 'left';
-    context.fillText('Score: ' + score, 1, 25)
+    context.fillText('Score: ' + score, 1, 25);
+    var points = Math.floor(score / 10);
+    context.fillText('Points: ' + points, canvas.width - 110, 25);
 
     // End or continue the game
     if (gameOver) {
