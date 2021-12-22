@@ -1,3 +1,5 @@
+# Final Demo (application portion): https://mediaspace.njit.edu/media/Final%20Demo%20(application)%20-%20Clayton%20Heidt/1_9dkpgvbt
+# Final Demo (database portion): https://mediaspace.njit.edu/media/Final%20Demo%20(database)%20-%20Clayton%20Heidt/1_6ubkj8fq
 # Project Name: Simple Arcade
 ## Project Summary: This project will create a simple Arcade with scoreboards and competitions based on the implemented game.
 ## Github Link: https://github.com/ClaytonHeidt/IT202-009/tree/prod/public_html/Project
@@ -9,15 +11,15 @@
 ### Line item / Feature template (use this for each bullet point)
 #### Don't delete this
 
-- [ ] (mm/dd/yyyy of completion) Feature Title (from the proposal bullet point, if it's a sub-point indent it properly)
+- [x] (mm/dd/2021) Feature Title (from the proposal bullet point, if it's a sub-point indent it properly)
   -  List of Evidence of Feature Completion
-    - Status: Pending (Completed, Partially working, Incomplete, Pending)
-    - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+    - Status: Completed
+    - Direct Link: 
     - Pull Requests
-      - PR link #1 (repeat as necessary)
+      - PR link #1:
     - Screenshots
-      - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-        - Screenshot #1 description explaining what you're trying to show
+      - Screenshot #1:
+        - Screenshot #1 description:
 ### End Line item / Feature Template
 --> 
 ### Proposal Checklist and Evidence
@@ -125,7 +127,7 @@
         - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/141283699-76b0a462-d3bd-43a8-a890-51ae574bdfbc.png)
           - Screenshot #1 description: output messages/errors are “user friendly”
 
-  - [x] (11/09/2021 of completion) User will be able to see their profile
+  - [x] (11/09/2021) User will be able to see their profile
     - List of Evidence of Feature Completion
       - Status: Completed
       - Direct Link: https://cjh47-prod.herokuapp.com/Project/profile.php
@@ -351,100 +353,140 @@
         - Screenshot #5: ![image](https://user-images.githubusercontent.com/90278160/146295598-7252dbcc-db75-4700-9399-ac1f17052581.png)
           - Screenshot #5 description: Create entries for the Users in the PointsHistory table (Apply the new values (SUM) to their points column in the Users table after entry is added & Reason should be recorded as ‘competition’ (or something with more precise information)) (Evidence from functions.php)
         - Screenshot #6: ![image](https://user-images.githubusercontent.com/90278160/146296290-d7006ecf-a477-462e-a9ba-08360ce0c1a8.png)
-          - Screenshot #6 description: Mark the competition as paid_out = true (Evidence from functions.php)
+          - Screenshot #6 description: Mark the competition as paid_out = true (Evidence from functions.phpexit)
         - Screenshot #7: ![image](https://user-images.githubusercontent.com/90278160/146296399-04cdd1a7-a572-444b-8ed8-ed7d9c941611.png)
           - Screenshot #7 description: Mark the competition as paid_out = true (Evidence from Competitions table)
 
 - **Milestone 4**
-  - [ ] (mm/dd/yyyy of completion) User can set their profile to be public or private (will need another column in Users table)
+  - [x] (12/19/2021) User can set their profile to be public or private (will need another column in Users table)
     -  List of Evidence of Feature Completion
-      - Status: Pending (Completed, Partially working, Incomplete, Pending)
-      - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+      - Status: Completed
+      - Direct Link: https://cjh47-prod.herokuapp.com/Project/profile.php
       - Pull Requests
-        - PR link #1 (repeat as necessary)
+        - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/98
       - Screenshots
-        - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-          - Screenshot #1 description explaining what you're trying to show
+        - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/147008404-f8a36f35-53b2-4d67-b41b-96190679d72c.png)
+          - Screenshot #1 description: User can set their profile to be public or private (will need another column in Users table)
+        - Screenshot #2: ![image](https://user-images.githubusercontent.com/90278160/147008537-434d9848-2839-4a31-a5ab-5e4134ca8eb8.png)
+          - Screenshot #2 description: Attempting to view priavate profile
+        - Screenshot #3: ![image](https://user-images.githubusercontent.com/90278160/147008488-0cf04175-8762-491d-8d33-db290b92eb26.png)
+          - Screenshot #3 description: If public, hide email address from other users
 
-  - [ ] (mm/dd/yyyy of completion) User will be able to see their competition history
+  - [x] (12/20/2021) User will be able to see their competition history
       -  List of Evidence of Feature Completion
-        - Status: Pending (Completed, Partially working, Incomplete, Pending)
-        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Status: Completed
+        - Direct Link: https://cjh47-prod.herokuapp.com/Project/competition_history.php
         - Pull Requests
-          - PR link #1 (repeat as necessary)
+          - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/102
         - Screenshots
-          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-            - Screenshot #1 description explaining what you're trying to show
+          - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/147008616-f0aa08ed-e3f4-4005-8a76-6e63a3db2bdb.png)
+            - Screenshot #1 description: User will be able to see their competition history (Limit to 10 results and Paginate anything after 10)
+          - Screenshot #2: ![image](https://user-images.githubusercontent.com/90278160/147008685-880a67cc-7235-4c67-be3e-1469ad249de3.png)
+            - Screenshot #2 description: Page 2 of pagination
+          - Screenshot #3: ![image](https://user-images.githubusercontent.com/90278160/147008905-0a0bb013-cffd-4d88-804a-4bf6e69572c2.png)
+            - Screenshot #3 description: If no results, show the appropriate message
 
-  - [ ] (mm/dd/yyyy of completion) User with the role of “admin” can edit a competition where paid_out = false
+  - [x] (12/20/2021) User with the role of “admin” can edit a competition where paid_out = false
       -  List of Evidence of Feature Completion
-        - Status: Pending (Completed, Partially working, Incomplete, Pending)
-        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Status: Completed
+        - Direct Link 1: https://cjh47-prod.herokuapp.com/Project/admin/edit_active_competitions.php
+        - Direct Link 2: https://cjh47-prod.herokuapp.com/Project/admin/edit_competition.php
         - Pull Requests
-          - PR link #1 (repeat as necessary)
+          - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/99
         - Screenshots
-          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-            - Screenshot #1 description explaining what you're trying to show
+          - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/147009020-2ee75ba7-91d7-40de-bd01-94e2ecbbd037.png)
+            - Screenshot #1 description: Choosing a competition to edit
+          - Screenshot #2: ![image](https://user-images.githubusercontent.com/90278160/147009110-dc6ca70c-f2b3-4c40-86b5-21db570e7472.png)
+            - Screenshot #2 description: They can adjust any of the regular form values (before update)
+          - Screenshot #3: ![image](https://user-images.githubusercontent.com/90278160/147009176-742bc4b4-a3b5-4176-b2b8-b9fd7313a243.png)
+            - Screenshot #3 description: (after update)
+          - Screenshot #4: ![image](https://user-images.githubusercontent.com/90278160/147009351-bbc99bc9-f245-4fc9-88f4-5d9236e3b6f3.png)
+            - Screenshot #4 description: If the competition was expired they can update the duration to include extra time
 
-  - [ ] (mm/dd/yyyy of completion) Add pagination to the Active Competitions view
+  - [x] (12/20/2021) Add pagination to the Active Competitions view
       -  List of Evidence of Feature Completion
-        - Status: Pending (Completed, Partially working, Incomplete, Pending)
-        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Status: Completed
+        - Direct Link: https://cjh47-prod.herokuapp.com/Project/active_competitions.php
         - Pull Requests
-          - PR link #1 (repeat as necessary)
+          - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/103
         - Screenshots
-          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-            - Screenshot #1 description explaining what you're trying to show
+          - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/147009465-81c918ee-847f-4974-a3e7-8aff8009bbad.png)
+            - Screenshot #1 description: Add pagination to the Active Competitions view (Show 10 competitions per page and Paginate anything after 10)
+          - Screenshot #2: ![image](https://user-images.githubusercontent.com/90278160/147009655-84850412-48c3-466f-b243-1c6caaa105ee.png)
+            - Screenshot #2 description: (code proof)
+          - Screenshot #3: ![image](https://user-images.githubusercontent.com/90278160/147009565-443bbffc-c287-4174-aed7-adf752d911f7.png)
+            - Screenshot #3 description: If no results, show the appropriate message (can't end all comps at this time)
 
-  - [ ] (mm/dd/yyyy of completion) Anywhere a username is displayed should be a link to that user’s profile
+  - [x] (12/20/2021) Anywhere a username is displayed should be a link to that user’s profile
       -  List of Evidence of Feature Completion
-        - Status: Pending (Completed, Partially working, Incomplete, Pending)
-        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Status: Completed
+        - Direct Link: https://cjh47-prod.herokuapp.com/Project/home.php
         - Pull Requests
-          - PR link #1 (repeat as necessary)
+          - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/92
         - Screenshots
-          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-            - Screenshot #1 description explaining what you're trying to show
+          - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/147010126-99476546-d799-4137-9a7e-b4d3b416d6e6.png)
+            - Screenshot #1 description: Anywhere a username is displayed should be a link to that user’s profile (This includes all scoreboards) (Weekly scoreboard)
+          - Screenshot #2: ![image](https://user-images.githubusercontent.com/90278160/147010228-c3440b6a-1066-4523-8194-9850e0072318.png)
+            - Screenshot #2 description: (monthly scoreboard)
+          - Screenshot #3: ![image](https://user-images.githubusercontent.com/90278160/147010250-2d60eab7-8854-4317-bcf9-6b3bdc73ff1c.png)
+            - Screenshot #3 description: (lifetime scoreboard)
+          - Screenshot #4: ![image](https://user-images.githubusercontent.com/90278160/147008537-434d9848-2839-4a31-a5ab-5e4134ca8eb8.png)
+            - Screenshot #4 description: If the profile is private you can have the page just display “this profile is private” upon access
 
-  - [ ] (mm/dd/yyyy of completion) Viewing an active or expired competition should show the top 10 scoreboard related to that competition
+  - [ ] (12/14/2021) Viewing an active or expired competition should show the top 10 scoreboard related to that competition
       -  List of Evidence of Feature Completion
-        - Status: Pending (Completed, Partially working, Incomplete, Pending)
-        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Status: Partially Working
+        - Direct Link: https://cjh47-prod.herokuapp.com/Project/view_competition.php?id=30
         - Pull Requests
-          - PR link #1 (repeat as necessary)
+          - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/89
         - Screenshots
-          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-            - Screenshot #1 description explaining what you're trying to show
+          - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/147033867-8f7e4a4b-967c-4efb-8860-14ae9408b8e8.png)
+            - Screenshot #1 description: Viewing an active or expired competition should show the top 10 scoreboard related to that competition (Note: Partially working? It worked until I added links to usernames. I do not have an old snapshot as proof unfortunately but scoreboard anywher works?)
 
-  - [ ] (mm/dd/yyyy of completion) Game should be fully implemented/complete by this point
+  - [x] (12/20/2021) Game should be fully implemented/complete by this point
       -  List of Evidence of Feature Completion
-        - Status: Pending (Completed, Partially working, Incomplete, Pending)
-        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Status: Completed
+        - Direct Link: https://cjh47-prod.herokuapp.com/Project/game.php
         - Pull Requests
-          - PR link #1 (repeat as necessary)
+          - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/101
         - Screenshots
-          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-            - Screenshot #1 description explaining what you're trying to show
+          - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/147034215-c1f693a5-8eb7-4154-8fc5-ceb103edd6f3.png
+            - Screenshot #1 description: Title screen (music plays throughout game)
+          - Screenshot #2: ![image](https://user-images.githubusercontent.com/90278160/147034305-c44b9b4f-ebc4-45d4-98a1-3f72eff1e5fb.png
+            - Screenshot #2 description: Game over screen
+          - Screenshot #3: ![image](https://user-images.githubusercontent.com/90278160/147034536-a37249ee-1721-4e79-8f85-f1a0012b8383.png)
+            - Screenshot #3 description: Gameplay (was not able to screen capture bullets in time)
+          - Screenshot #4: ![image](https://user-images.githubusercontent.com/90278160/147034562-e8a4addf-d572-4a69-9d67-039565cffa81.png)
+            - Screenshot #4 description: Game should tell the player if they’re not logged in that their score will not be recorded.
 
-  - [ ] (mm/dd/yyyy of completion) User’s score history will include pagination
+  - [x] (12/20/2021) User’s score history will include pagination
       -  List of Evidence of Feature Completion
-        - Status: Pending (Completed, Partially working, Incomplete, Pending)
-        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Status: Completed
+        - Direct Link: https://cjh47-prod.herokuapp.com/Project/profile.php
         - Pull Requests
-          - PR link #1 (repeat as necessary)
+          - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/104
         - Screenshots
-          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-            - Screenshot #1 description explaining what you're trying to show
+          - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/147034670-65bcc4a4-1416-425f-84cb-604724f173f2.png)
+            - Screenshot #1 description: User’s score history will include pagination (Show latest 10 Paginate after 10) (Page 1)
+          - Screenshot #2: ![image](https://user-images.githubusercontent.com/90278160/147034705-ade5390b-8fa6-4c52-a3e5-606171a2015f.png)
+            - Screenshot #2 description: Page 2 (and so on)
+          - Screenshot #3: ![image](https://user-images.githubusercontent.com/90278160/147034772-b0b982b3-f40e-44e7-a3ff-f04dff42c5f8.png)
+            - Screenshot #3 description: Show appropriate message for no results
 
-  - [ ] (mm/dd/yyyy of completion) Home page will have a weekly, monthly, and lifetime scoreboard
+  - [x] (12/20/2021) Home page will have a weekly, monthly, and lifetime scoreboard
       -  List of Evidence of Feature Completion
-        - Status: Pending (Completed, Partially working, Incomplete, Pending)
-        - Direct Link: (Direct link to the file or files in heroku prod for quick testing (even if it's a protected page))
+        - Status: Completed
+        - Direct Link: https://cjh47-prod.herokuapp.com/Project/profile.php
         - Pull Requests
-          - PR link #1 (repeat as necessary)
+          - PR link #1: https://github.com/ClaytonHeidt/IT202-009/pull/100
         - Screenshots
-          - Screenshot #1 (paste the image so it uploads to github) (repeat as necessary)
-            - Screenshot #1 description explaining what you're trying to show
+          - Screenshot #1: ![image](https://user-images.githubusercontent.com/90278160/147010126-99476546-d799-4137-9a7e-b4d3b416d6e6.png)
+            - Screenshot #1 description: Will also have a link to the game (in nav bar) and Scoreboards will show username and points for the session (Weekly scoreboard)
+          - Screenshot #2: ![image](https://user-images.githubusercontent.com/90278160/147010228-c3440b6a-1066-4523-8194-9850e0072318.png)
+            - Screenshot #2 description: (monthly scoreboard)
+          - Screenshot #3: ![image](https://user-images.githubusercontent.com/90278160/147010250-2d60eab7-8854-4317-bcf9-6b3bdc73ff1c.png)
+            - Screenshot #3 description: (lifetime scoreboard)
+
 ### Intructions
 #### Don't delete this
 1. Pick one project type
